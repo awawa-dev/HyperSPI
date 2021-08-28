@@ -8,7 +8,7 @@ Rpi acts as a master, ESP8266/ESP32 is in slave mode.
 | SK6812 cold white              |   yes   |     yes     |
 | SK6812 neutral white           |   yes   |     yes     |
 | WS281x                         |   yes   |     yes     |
-| SPI (APA102, SK9812, HD107...) |    no   |  yes (beta) |
+| SPI (APA102, SK9812, HD107...) |    no   |     yes     |
   
   
 # Why this project was created?
