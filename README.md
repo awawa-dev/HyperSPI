@@ -26,9 +26,11 @@ That's how the grabbers works when other device is disconnected from the USB por
 ![fast](https://user-images.githubusercontent.com/69086569/129419160-c546a0ea-4990-4215-a0a9-8fb1288e0ac9.jpg)
   
 # Software configuration (HyperHDR v17 and above)
-Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards or 'standard' for other devices.  
+Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards or 'standard' for other devices.    
+Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
+Enabling "White channel calibration" is optional, if you want to fine tune the white channel balance of your sk6812 RGBW LED strip.
   
-![config](https://user-images.githubusercontent.com/69086569/129935143-6d694142-fe07-4c45-a1e1-bca34728dd50.jpg)
+![obraz](https://user-images.githubusercontent.com/69086569/193319124-0054f367-3d30-4e50-8c52-3683c7bbc50e.png)
 
 # Hardware connection  
   
