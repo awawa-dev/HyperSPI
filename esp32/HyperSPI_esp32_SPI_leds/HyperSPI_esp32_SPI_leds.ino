@@ -17,7 +17,7 @@ int       serialSpeed = 115200;  // serial port speed, only for monitoring as it
 ESP32DMASPI::Slave slave;
 
 static const uint32_t REAL_BUFFER = 1536;
-static const uint32_t BUFFER_SIZE = REAL_BUFFER + 5;
+static const uint32_t BUFFER_SIZE = REAL_BUFFER + 8;
 
 uint8_t*              spi_slave_tx_buf;
 uint8_t*              spi_slave_rx_buf;

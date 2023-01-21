@@ -32,7 +32,7 @@ int serialSpeed = 115200;  // serial port speed, only for monitoring as it's SPI
 ESP32DMASPI::Slave slave;
 
 static const uint32_t REAL_BUFFER = 1536;
-static const uint32_t BUFFER_SIZE = REAL_BUFFER + 5;
+static const uint32_t BUFFER_SIZE = REAL_BUFFER + 8;
 
 uint8_t *spi_slave_tx_buf;
 uint8_t *spi_slave_rx_buf;
@@ -49,7 +49,7 @@ int pixelCount = 0; // This is dynamic, don't change it
 	#define LED_TYPE NeoGrbFeature
 #endif
 
-NeoPixelBus<LED_TYPE, NeoEsp32Rmt0800KbpsMethod> *strip = NULL;
+NeoPixelBus<LED_TYPE, NeoEsp32Rmt0Ws2812xMethod> *strip = NULL;
 
 void Init(int count)
 {
@@ -57,7 +57,7 @@ void Init(int count)
 		delete strip;
 
 	pixelCount = count;
-	strip = new NeoPixelBus<LED_TYPE, NeoEsp32Rmt0800KbpsMethod>(pixelCount, DATA_PIN);
+	strip = new NeoPixelBus<LED_TYPE, NeoEsp32Rmt0Ws2812xMethod>(pixelCount, DATA_PIN);
 	strip->Begin();
 }
 
