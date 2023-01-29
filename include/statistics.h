@@ -2,9 +2,9 @@
 *
 *  MIT License
 *
-*  Copyright (c) 2022 awawa-dev
+*  Copyright (c) 2023 awawa-dev
 *
-*  https://github.com/awawa-dev/HyperSerialESP32
+*  https://github.com/awawa-dev/HyperSPI
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a copy
 *  of this software and associated documentation files (the "Software"), to deal

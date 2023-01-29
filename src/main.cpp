@@ -4,7 +4,7 @@
 *
 *  Copyright (c) 2022 awawa-dev
 *
-*  https://github.com/awawa-dev/HyperSerialESP32
+*  https://github.com/awawa-dev/HyperSPI
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a copy
 *  of this software and associated documentation files (the "Software"), to deal
@@ -26,11 +26,20 @@
  */
 
 #include <Arduino.h>
-#if defined(CONFIG_IDF_TARGET_ESP32S2)
-	#define VSPI FSPI
-	#define VSPI_HOST FSPI_HOST
+
+#if defined(ARDUINO_ARCH_ESP32)
+	#if defined(CONFIG_IDF_TARGET_ESP32S2)
+		#define VSPI FSPI
+		#define VSPI_HOST FSPI_HOST
+	#endif
+	#include <ESP32DMASPISlave.h>
+#else
+	#include <SPISlave.h>
+	#define TaskHandle_t void*
+	#define xSemaphoreHandle void*
+	#define uxTaskGetStackHighWaterMark(x) 0
 #endif
-#include <ESP32DMASPISlave.h>
+
 #include <NeoPixelBus.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -52,180 +61,206 @@
 #ifdef COLD_WHITE
 	#pragma message(VAR_NAME_VALUE(COLD_WHITE))
 #endif
+
 #pragma message(VAR_NAME_VALUE(SERIALCOM_SPEED))
 
-#if defined(CONFIG_IDF_TARGET_ESP32S2)
-	#ifdef NEOPIXEL_RGBW
-		#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0Sk6812Method>
-	#elif NEOPIXEL_RGB
-		#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0Ws2812xMethod>
-	#endif
-#else
-	#ifdef NEOPIXEL_RGBW
-		#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s1Sk6812Method>
-	#elif NEOPIXEL_RGB
-		#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp32I2s1Ws2812xMethod>
-	#endif
-#endif
-
-#pragma message(VAR_NAME_VALUE(DATA_PIN))
-#ifdef CLOCK_PIN
-	#pragma message(VAR_NAME_VALUE(CLOCK_PIN))
-#endif
-
-#if defined(SECOND_SEGMENT_START_INDEX)
-	#if defined(NEOPIXEL_RGBW) || defined(NEOPIXEL_RGB)
-		#define PARALLEL_MODE
-	#endif
-
-	#if defined(PARALLEL_MODE)
-		#pragma message("Using parallel mode for segments")
-	#endif
-
+#if defined(ARDUINO_ARCH_ESP32)
 	#if defined(CONFIG_IDF_TARGET_ESP32S2)
 		#ifdef NEOPIXEL_RGBW
-			#ifdef PARALLEL_MODE
-				#undef LED_DRIVER
-				#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0X8Sk6812Method>
-				#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0X8Sk6812Method>
-			#else			
-				#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0Sk6812Method>
-			#endif
+			#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0Sk6812Method>
 		#elif NEOPIXEL_RGB
-			#ifdef PARALLEL_MODE
-				#undef LED_DRIVER
-				#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0X8Ws2812Method>
-				#define LED_DRIVER2 NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0X8Ws2812Method>
-			#else
-				#define LED_DRIVER2 NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0Ws2812xMethod>
-			#endif
+			#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0Ws2812xMethod>
 		#endif
 	#else
 		#ifdef NEOPIXEL_RGBW
-			#ifdef PARALLEL_MODE
-				#undef LED_DRIVER
-				#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s1X8Sk6812Method>
-				#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s1X8Sk6812Method>
-			#else
-				#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0Sk6812Method>
-			#endif
+			#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s1Sk6812Method>
 		#elif NEOPIXEL_RGB
-			#ifdef PARALLEL_MODE
-				#undef LED_DRIVER
-				#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp32I2s1X8Ws2812Method>
-				#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s1X8Ws2812Method>
-			#else
-				#define LED_DRIVER2 NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0Ws2812xMethod>
-			#endif
+			#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp32I2s1Ws2812xMethod>
 		#endif
 	#endif
-	#pragma message(VAR_NAME_VALUE2(LED_DRIVER))
-	#pragma message(VAR_NAME_VALUE(SECOND_SEGMENT_START_INDEX))
-	#pragma message(VAR_NAME_VALUE(SECOND_SEGMENT_DATA_PIN))
-	#ifdef SECOND_SEGMENT_CLOCK_PIN
-		#pragma message(VAR_NAME_VALUE(SECOND_SEGMENT_CLOCK_PIN))
+
+	#pragma message(VAR_NAME_VALUE(DATA_PIN))
+	#ifdef CLOCK_PIN
+		#pragma message(VAR_NAME_VALUE(CLOCK_PIN))
 	#endif
-	#pragma message(VAR_NAME_VALUE2(LED_DRIVER2))
+
+	#if defined(SECOND_SEGMENT_START_INDEX)
+		#if defined(NEOPIXEL_RGBW) || defined(NEOPIXEL_RGB)
+			#define PARALLEL_MODE
+		#endif
+
+		#if defined(PARALLEL_MODE)
+			#pragma message("Using parallel mode for segments")
+		#endif
+
+		#if defined(CONFIG_IDF_TARGET_ESP32S2)
+			#ifdef NEOPIXEL_RGBW
+				#ifdef PARALLEL_MODE
+					#undef LED_DRIVER
+					#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0X8Sk6812Method>
+					#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0X8Sk6812Method>
+				#else			
+					#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0Sk6812Method>
+				#endif
+			#elif NEOPIXEL_RGB
+				#ifdef PARALLEL_MODE
+					#undef LED_DRIVER
+					#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0X8Ws2812Method>
+					#define LED_DRIVER2 NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0X8Ws2812Method>
+				#else
+					#define LED_DRIVER2 NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0Ws2812xMethod>
+				#endif
+			#endif
+		#else
+			#ifdef NEOPIXEL_RGBW
+				#ifdef PARALLEL_MODE
+					#undef LED_DRIVER
+					#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s1X8Sk6812Method>
+					#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s1X8Sk6812Method>
+				#else
+					#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0Sk6812Method>
+				#endif
+			#elif NEOPIXEL_RGB
+				#ifdef PARALLEL_MODE
+					#undef LED_DRIVER
+					#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp32I2s1X8Ws2812Method>
+					#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s1X8Ws2812Method>
+				#else
+					#define LED_DRIVER2 NeoPixelBus<NeoGrbFeature, NeoEsp32I2s0Ws2812xMethod>
+				#endif
+			#endif
+		#endif
+		#pragma message(VAR_NAME_VALUE2(LED_DRIVER))
+		#pragma message(VAR_NAME_VALUE(SECOND_SEGMENT_START_INDEX))
+		#pragma message(VAR_NAME_VALUE(SECOND_SEGMENT_DATA_PIN))
+		#ifdef SECOND_SEGMENT_CLOCK_PIN
+			#pragma message(VAR_NAME_VALUE(SECOND_SEGMENT_CLOCK_PIN))
+		#endif
+		#pragma message(VAR_NAME_VALUE2(LED_DRIVER2))
+	#else
+		#pragma message(VAR_NAME_VALUE2(LED_DRIVER))
+		
+		class LED_DRIVER2 {
+			public:
+			bool CanShow() {return true;}
+			void Show(bool safe) {}
+		};
+	#endif
 #else
+
+	#ifdef NEOPIXEL_RGBW
+		#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp8266Uart1Sk6812Method>
+	#elif NEOPIXEL_RGB
+		#define LED_DRIVER NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart1Ws2812xMethod>
+	#elif SPILED_APA102
+		#define LED_DRIVER NeoPixelBus<DotStarBgrFeature, DotStarSpiMethod>
+	#elif SPILED_WS2801
+		#define LED_DRIVER NeoPixelBus<NeoRbgFeature, NeoWs2801Spi2MhzMethod>
+	#endif
+
 	#pragma message(VAR_NAME_VALUE2(LED_DRIVER))
-	
+
 	class LED_DRIVER2 {
-		public:
-		bool CanShow() {return true;}
-		void Show(bool safe) {}
-	};
+			public:
+			bool CanShow() {return true;}
+			void Show(bool safe) {}
+		};
 #endif
 
 #define SerialPort Serial
 #include "main.h"
 
-ESP32DMASPI::Slave slave;
+
 
 static const uint32_t REAL_BUFFER = 1536;
 static const uint32_t BUFFER_SIZE = REAL_BUFFER + 8;
 
-uint8_t *spi_slave_tx_buf;
-uint8_t *spi_slave_rx_buf;
-constexpr uint8_t CORE_TASK_SPI_SLAVE{0};
-constexpr uint8_t CORE_TASK_PROCESS_BUFFER{0};
-static TaskHandle_t task_handle_wait_spi = 0;
-static TaskHandle_t task_handle_process_buffer = 0;
-portMUX_TYPE spiMutex = portMUX_INITIALIZER_UNLOCKED;
+#if defined(ARDUINO_ARCH_ESP32)
+	ESP32DMASPI::Slave slave;
+	uint8_t *spi_slave_tx_buf;
+	uint8_t *spi_slave_rx_buf;
+	constexpr uint8_t CORE_TASK_SPI_SLAVE{0};
+	constexpr uint8_t CORE_TASK_PROCESS_BUFFER{0};
+	static TaskHandle_t task_handle_wait_spi = 0;
+	static TaskHandle_t task_handle_process_buffer = 0;
+	portMUX_TYPE spiMutex = portMUX_INITIALIZER_UNLOCKED;
 
-/**
- * @brief separete thread for handling incoming data using cyclic buffer
- * 
- * @param parameters 
- */
-void processDataTask(void * parameters)
-{
-	for(;;)
+	void readSpi()
 	{
-		xSemaphoreTake(base.i2sXSemaphore, portMAX_DELAY);	
-		processData();
-	}
-}
+		taskENTER_CRITICAL(&spiMutex);
 
-void readSpi()
-{
-	taskENTER_CRITICAL(&spiMutex);
-
-	if (spi_slave_rx_buf[REAL_BUFFER] == 0xAA)
-	{
-		if (base.queueEnd + REAL_BUFFER < MAX_BUFFER)
+		if (spi_slave_rx_buf[REAL_BUFFER] == 0xAA)
 		{
-			memcpy(&(base.buffer[base.queueEnd]), spi_slave_rx_buf, REAL_BUFFER);
-			base.queueEnd += REAL_BUFFER;
+			if (base.queueEnd + REAL_BUFFER < MAX_BUFFER)
+			{
+				memcpy(&(base.buffer[base.queueEnd]), spi_slave_rx_buf, REAL_BUFFER);
+				base.queueEnd += REAL_BUFFER;
+			}
+			else
+			{
+				int left = MAX_BUFFER - base.queueEnd;
+				memcpy(&(base.buffer[base.queueEnd]), spi_slave_rx_buf, left);
+				memcpy(&(base.buffer[0]), spi_slave_rx_buf + left, REAL_BUFFER - left);
+				base.queueEnd = REAL_BUFFER - left;
+			}
+			spi_slave_rx_buf[REAL_BUFFER] = 0;
+			taskEXIT_CRITICAL(&spiMutex);
+
+			if (base.processDataHandle != nullptr)
+				xSemaphoreGive(base.i2sXSemaphore);
 		}
 		else
 		{
-			int left = MAX_BUFFER - base.queueEnd;
-			memcpy(&(base.buffer[base.queueEnd]), spi_slave_rx_buf, left);
-			memcpy(&(base.buffer[0]), spi_slave_rx_buf + left, REAL_BUFFER - left);
-			base.queueEnd = REAL_BUFFER - left;
+			taskEXIT_CRITICAL(&spiMutex);
+		}	
+	}
+
+	void task_wait_spi(void *pvParameters)
+	{
+		while (1)
+		{
+			ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+			slave.wait(spi_slave_rx_buf, spi_slave_tx_buf, BUFFER_SIZE);
+
+			xTaskNotifyGive(task_handle_process_buffer);
 		}
-		spi_slave_rx_buf[REAL_BUFFER] = 0;
-		taskEXIT_CRITICAL(&spiMutex);
-
-		if (base.processDataHandle != nullptr)
-			xSemaphoreGive(base.i2sXSemaphore);
 	}
-	else
+
+	void task_process_buffer(void *pvParameters)
 	{
-		taskEXIT_CRITICAL(&spiMutex);
-	}	
-}
+		while (1)
+		{
+			ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
-void task_wait_spi(void *pvParameters)
-{
-	while (1)
-	{
-		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+			readSpi();
 
-		slave.wait(spi_slave_rx_buf, spi_slave_tx_buf, BUFFER_SIZE);
+			slave.pop();
 
-		xTaskNotifyGive(task_handle_process_buffer);
+			xTaskNotifyGive(task_handle_wait_spi);
+		}
 	}
-}
 
-void task_process_buffer(void *pvParameters)
-{
-	while (1)
+	/**
+	 * @brief separete thread for handling incoming data using cyclic buffer
+	 * 
+	 * @param parameters 
+	 */
+	void processDataTask(void * parameters)
 	{
-		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-
-		readSpi();
-
-		slave.pop();
-
-		xTaskNotifyGive(task_handle_wait_spi);
+		for(;;)
+		{
+			xSemaphoreTake(base.i2sXSemaphore, portMAX_DELAY);	
+			processData();
+		}
 	}
-}
+#endif
+
+
+
 
 void setup()
 {
-	bool multicore = false;
-
 	// Init serial port
 	Serial.setTimeout(50);
 	Serial.begin(SERIALCOM_SPEED);
@@ -266,41 +301,67 @@ void setup()
 		delay(50);
 	#endif
 
-	if (multicore)
-	{
-		// create a semaphore to synchronize threads
-		base.i2sXSemaphore = xSemaphoreCreateBinary();
-		
-		// create new task for handling received serial data on core 0
-		xTaskCreatePinnedToCore(
-			processDataTask,
-			"processDataTask",
-			5096,
-			NULL,        
-			1,           
-			&base.processDataHandle,      
-			0);
-	}
+	
 
 	// spi stuff
-	spi_slave_tx_buf = slave.allocDMABuffer(BUFFER_SIZE);
-	spi_slave_rx_buf = slave.allocDMABuffer(BUFFER_SIZE);
+	#if defined(ARDUINO_ARCH_ESP32)
+		bool multicore = false;
 
-	slave.setDataMode(SPI_MODE0);
-	slave.setMaxTransferSize(BUFFER_SIZE);
-	slave.setDMAChannel(1);
-	slave.setQueueSize(1);
+		if (multicore)
+		{
+			// create a semaphore to synchronize threads
+			base.i2sXSemaphore = xSemaphoreCreateBinary();
+			
+			// create new task for handling received serial data on core 0
+			xTaskCreatePinnedToCore(
+				processDataTask,
+				"processDataTask",
+				5096,
+				NULL,        
+				1,           
+				&base.processDataHandle,      
+				0);
+		}
 
-	#if defined(CONFIG_IDF_TARGET_ESP32S2)
-		// sck: 7, miso: 34 (no important), MOSI: 11, spi select: 12
-		slave.begin(VSPI, 7, 34, 11, 12);
+		spi_slave_tx_buf = slave.allocDMABuffer(BUFFER_SIZE);
+		spi_slave_rx_buf = slave.allocDMABuffer(BUFFER_SIZE);
+
+		slave.setDataMode(SPI_MODE0);
+		slave.setMaxTransferSize(BUFFER_SIZE);
+		slave.setDMAChannel(1);
+		slave.setQueueSize(1);
+
+		#if defined(CONFIG_IDF_TARGET_ESP32S2)
+			// sck: 7, miso: 34 (no important), MOSI: 11, spi select: 12
+			slave.begin(VSPI, 7, 34, 11, 12);
+		#else
+			slave.begin(VSPI);
+		#endif
+
+		xTaskCreatePinnedToCore(task_wait_spi, "task_wait_spi", 2048, NULL, 2, &task_handle_wait_spi, CORE_TASK_SPI_SLAVE);
+		xTaskNotifyGive(task_handle_wait_spi);
+		xTaskCreatePinnedToCore(task_process_buffer, "task_process_buffer", 2048, NULL, 2, &task_handle_process_buffer, CORE_TASK_PROCESS_BUFFER);
 	#else
-		slave.begin(VSPI);
-	#endif
+		SPISlave.onData([](uint8_t *data, size_t len)
+			{
+				if (base.queueEnd + len < MAX_BUFFER)
+				{
+					memcpy(&(base.buffer[base.queueEnd]), data, len);
+					base.queueEnd += len;
+				}
+				else
+				{
+					int left = MAX_BUFFER - base.queueEnd;
+					memcpy(&(base.buffer[base.queueEnd]), data, left);
+					memcpy(&(base.buffer[0]), data + left, len - left);
+					base.queueEnd = len - left;
+				}
+			});
 
-	xTaskCreatePinnedToCore(task_wait_spi, "task_wait_spi", 2048, NULL, 2, &task_handle_wait_spi, CORE_TASK_SPI_SLAVE);
-	xTaskNotifyGive(task_handle_wait_spi);
-	xTaskCreatePinnedToCore(task_process_buffer, "task_process_buffer", 2048, NULL, 2, &task_handle_process_buffer, CORE_TASK_PROCESS_BUFFER);
+		SPISlave.begin();
+
+		SPISlave.setStatus(millis());	
+	#endif
 }
 
 void loop()

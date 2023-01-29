@@ -2,9 +2,9 @@
 *
 *  MIT License
 *
-*  Copyright (c) 2022 awawa-dev
+*  Copyright (c) 2023 awawa-dev
 *
-*  https://github.com/awawa-dev/HyperSerialESP32
+*  https://github.com/awawa-dev/HyperSPI
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a copy
 *  of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,11 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#define MAX_BUFFER (3013 * 3 + 1)
+#if defined(ARDUINO_ARCH_ESP32)
+	#define MAX_BUFFER (3013 * 3 + 1)
+#else
+	#define MAX_BUFFER (4096)
+#endif
 #define HELLO_MESSAGE "\r\nWelcome!\r\nAwa driver 9."
 
 #include "calibration.h"

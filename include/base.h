@@ -2,9 +2,9 @@
 *
 *  MIT License
 *
-*  Copyright (c) 2022 awawa-dev
+*  Copyright (c) 2023 awawa-dev
 *
-*  https://github.com/awawa-dev/HyperSerialESP32
+*  https://github.com/awawa-dev/HyperSPI
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a copy
 *  of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,9 @@
 #ifndef BASE_H
 #define BASE_H
 
-#include "freertos/semphr.h"
+#if defined(ARDUINO_ARCH_ESP32)
+	#include "freertos/semphr.h"
+#endif
 
 #if defined(SECOND_SEGMENT_START_INDEX) 
 	#if !defined(SECOND_SEGMENT_DATA_PIN)
@@ -55,8 +57,10 @@ class Base
 		// handle to tasks
 		TaskHandle_t processDataHandle = nullptr;
 		TaskHandle_t processSerialHandle = nullptr;
+
 		// semaphore to synchronize them
 		xSemaphoreHandle i2sXSemaphore;
+
 		// current queue position
 		volatile int queueCurrent = 0;
 		// queue end position
@@ -112,12 +116,12 @@ class Base
 
 			if (ledStrip1 == nullptr)
 			{
-				#if defined(NEOPIXEL_RGBW) || defined(NEOPIXEL_RGB)
+				#if defined(ARDUINO_ARCH_ESP32)
 					ledStrip1 = new LED_DRIVER(ledsNumber, DATA_PIN);
 					ledStrip1->Begin();
 				#else
 					ledStrip1 = new LED_DRIVER(ledsNumber);
-					ledStrip1->Begin(CLOCK_PIN, 12, DATA_PIN, 15);
+					ledStrip1->Begin();
 				#endif
 			}			
 		}
