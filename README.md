@@ -33,9 +33,9 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 
 # Hardware connection  
   
-## ESP8266  (only 3 SPI cables are needed: MOSI, MISO, SCLK + common ground)  
+## ESP8266  (only 2 SPI cables are needed: MOSI, MISO, SCLK + common ground)  
   
-**ESP8266 SPI input:** GPIO 14 for Clock (SCK), GPIO 12 for Data (MISO), GPIO 13 for Data (MOSI)  
+**ESP8266 SPI input:** GPIO 14 for Clock (SCK), GPIO 13 for Data (MOSI)  
 **LED output:** GPIO 2  
   
 ![cables](https://user-images.githubusercontent.com/69086569/129419654-84087cc5-b74f-4d8d-84c3-54ef3d845627.jpg)  
