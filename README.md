@@ -8,7 +8,6 @@ Rpi acts as a master, ESP8266/ESP32 is in slave mode.
 | SK6812 cold white              |   yes   |     yes     |
 | SK6812 neutral white           |   yes   |     yes     |
 | WS281x                         |   yes   |     yes     |
-| SPI (APA102, SK9812, HD107...) |    no   |     yes     |
   
   
 # Why this project was created?
@@ -34,25 +33,29 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 
 # Hardware connection  
   
-## ESP8266  (only 3 SPI cables are needed: MOSI, MISO, SCLK + common ground)  
+## ESP8266  (only 2 SPI cables are needed: MOSI, SCLK + **short** common ground)  
   
-**ESP8266 SPI input:** GPIO 14 for Clock (SCK), GPIO 12 for Data (MISO), GPIO 13 for Data (MOSI)  
+**ESP8266 SPI input:** GPIO 14 for Clock (SCK), GPIO 13 for Data (MOSI)  
 **LED output:** GPIO 2  
   
 ![cables](https://user-images.githubusercontent.com/69086569/129419654-84087cc5-b74f-4d8d-84c3-54ef3d845627.jpg)  
 ![rpi](https://user-images.githubusercontent.com/69086569/129419668-17621117-0e3a-4cfc-a5b3-02932824889e.jpg)  
 ![esp](https://user-images.githubusercontent.com/69086569/129419687-dbd0d5b0-1b45-4ce5-8666-6469b0970952.jpg)  
   
-## ESP32 (need all 4 SPI cables + common ground)  
+## ESP32 (need 3 SPI cables + **short** common ground)  
   
 **Warning**: HyperSPI set SPI_MODE0 on default due to a bug with a SPI bit shift [link](https://github.com/espressif/esp-idf/search?q=dma+spi+bit+shift&type=issues), you may need to change it to SPI_MODE3 for slower speeds  
   
-**ESP32 SPI input:** VSPI interface, GPIO 5 for SPI Chip Select, GPIO 18 for Clock (SCK), GPIO 19 for Data (MISO), GPIO 23 for Data (MOSI)  
+**ESP32 SPI input:** VSPI interface, GPIO 5 for SPI Chip Select, GPIO 18 for Clock (SCK), GPIO 23 for Data (MOSI)  
 **LED output (non-SPI):** GPIO 2  
-**LED output (SPI):** GPIO 0 for Clock, GPIO 2 for Data  
   
 ![esp2](https://user-images.githubusercontent.com/69086569/130372512-d3dd4dde-5069-4ad9-8649-7ea8e874ee07.jpg)
 ![esp](https://user-images.githubusercontent.com/69086569/130372517-dfc61fd4-e700-49f1-b3a1-b56c8468837f.jpg)
+
+## ESP32-S2 mini (need 3 SPI cables + **short** common ground)  
+  
+**ESP32-S2 SPI input:** FSPI interface, GPIO 12 for SPI Chip Select, GPIO 7 for Clock (SCK), GPIO 11 for Data (MOSI)  
+**LED output (non-SPI):** GPIO 2  
 
 # Compiling
   
