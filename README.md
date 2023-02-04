@@ -33,8 +33,12 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 ![obraz](https://user-images.githubusercontent.com/69086569/193319124-0054f367-3d30-4e50-8c52-3683c7bbc50e.png)
 
 # Hardware connection  
+
+If you are using an ESP board compatible with the Wemos board (ESP8266, , ESP32-S2 lolin mini), the SPI connection uses the same pinout on the ESP board! The pin positions of the LED output may vary. Cables (including ground) should not exceed 15cm or it may be necessary to lower the SPI speed. See how easy it is to connect ESP to Rpi:
+
+![obraz](https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png)
   
-## ESP8266
+## Default pinout: ESP8266 (can not be changed)
   
 | ESP8266     | PINOUT    |
 |-------------|-----------|
@@ -44,7 +48,7 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 | LED output  | GPIO 2    | 
 
   
-## ESP32
+## Default pinout: ESP32 (can be changed)
 
 | ESP32                     | PINOUT    |
 |---------------------------|-----------|
@@ -55,7 +59,7 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 | LED output                | GPIO 2    |
   
 
-## ESP32-S2 lolin mini
+## Default pinout: ESP32-S2 lolin mini (can be changed)
 
 | ESP32-S2 lolin mini       | PINOUT    |
 |---------------------------|-----------|
@@ -64,10 +68,6 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 | SPI Chip Select(e.g. CE0) | GPIO 12   |
 | GROUND                    | mandatory |
 | LED output                | GPIO 2    |
-
-
-
-If you are using ESP board compatible with Wemos board (ESP8266, , ESP32-S2 lolin mini) the SPI connection is using the same pinout on the ESP board! LED output pin location may vary. Cables should not rather exceed 15cm or you may need to lower the SPI speed. Look how it's simply to connect ESP to Rpi:
 
 # Compiling
   
@@ -78,7 +78,7 @@ But there is also an alternative and an easier way. Just fork the project and en
 
 Tutorial: https://github.com/awawa-dev/HyperSPI/wiki
 
-# Multi-Segment Wiring
+# Multi-Segment Wiring (ESP32 and ESP32-S2 only)
 
 Proposed example of building a multisegment:
 - Divide a long or dense strip of LEDs into 2 smaller equal parts. So `SECOND_SEGMENT_START_INDEX` in the HyperSerialESP32 firmware is the total number of LEDs divided by 2.
