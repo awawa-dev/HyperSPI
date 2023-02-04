@@ -85,6 +85,16 @@ If you want to disable your first LED because it's used as a sacrificial level s
 
 For the RGBW firmware the white channel is automatically calculated and R,G,B channels are corrected.  
 
+# Benchmark results
+
+## ESP32
+
+| LED strip / Device                             | ESP32 MH ET Live<br>HyperSPI v9 |
+|------------------------------------------------|-----------------|
+| 300LEDs<br>Refresh rate/continues output=83Hz  |        83       |
+| 600LEDs<br>Refresh rate/continues output=43Hz  |      42-43      |
+| 900LEDs<br>Refresh rate/continues output=28Hz  |       28        |
+
 # Example of supported boards
 
 **Esp8266 Wemos D1 mini (CH340) and Wemos D1 mini pro (CP2104)**  
