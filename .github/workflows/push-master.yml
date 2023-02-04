@@ -1,4 +1,4 @@
-name: HyperSerialESP32 CI Build
+name: HyperSPI CI Build
 
 on: [push]
 
@@ -78,7 +78,7 @@ jobs:
       - name: Create draft release
         uses: softprops/action-gh-release@v1
         with:
-          name: HyperSerialEsp8266 ${{ env.VERSION }}
+          name: HyperSPI ${{ env.VERSION }}
           tag_name: ${{ env.TAG }}
           files: |
             *.bin
