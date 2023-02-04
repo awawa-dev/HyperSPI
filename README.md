@@ -16,7 +16,7 @@ Rpi acts as a master, ESP8266/ESP32 is in slave mode.
 - SPI doesn't have any data integration check. But AWA protocol does have one.
 - you don't need to have 2Mb capable serial port on your ESP board.
 - SPI transmission is much lighter than serial communication
-- I needed it and I was able to implemented it ;)
+- I needed it and I was able to implemented it 😉
 - There is a hardware limitation for the Rpi current design...even if you connect your grabber to the USB3.0 in the USB2.0 mode the adalight running driver causes quite a big USB transfer drop. So we can replace Adalight with a pure SPI data transfer as an alternative.
 
 See what's happening for USB2.0 bus... my problematic Ezcap 320 @ 50 fps fell back to USB2.0 mode and did not like the CH340G serial port driver at all (real USB3.0 should not be affected, but not tested it):  
