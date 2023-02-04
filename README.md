@@ -34,7 +34,7 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 
 # Hardware connection  
 
-If you are using an ESP board compatible with the Wemos board (ESP8266, , ESP32-S2 lolin mini), the SPI connection uses the same pinout on the ESP board! The pin positions of the LED output may vary. Cables (including ground) should not exceed 15cm or it may be necessary to lower the SPI speed. See how easy it is to connect ESP to Rpi:
+If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/pro, ESP32 MH-ET Live, ESP32-S2 lolin mini), the SPI connection uses the same pinout location on the ESP board! The pin positions of the LED output may vary. Cables (including ground) should not exceed 15cm or it may be necessary to lower the SPI speed. See how easy it is to connect ESP to Rpi:
 
 ![obraz](https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png)
   
@@ -68,6 +68,18 @@ If you are using an ESP board compatible with the Wemos board (ESP8266, , ESP32-
 | SPI Chip Select(e.g. CE0) | GPIO 12   |
 | GROUND                    | mandatory |
 | LED output                | GPIO 2    |
+
+# Example of supported boards
+
+**Esp8266 Wemos D1 mini (CH340) and Wemos D1 mini pro (CP2104)**  
+<p align="center">
+<img src="https://user-images.githubusercontent.com/69086569/207572306-2b0bd3dd-fcb2-4f0c-8426-64341cbbadbf.png" /><img src="https://user-images.githubusercontent.com/69086569/207572335-9caf2567-2e23-4ee4-85a4-0f2f82676c16.png" />
+</p>
+  
+**ESP32 MH-ET Live and ESP32-S2 Lolin mini (CDC)**  
+<p align="center">
+<img src="https://user-images.githubusercontent.com/69086569/207587620-1c4c53c8-426c-486e-a6d9-d429fd1b050d.png" /><img src="https://user-images.githubusercontent.com/69086569/207587635-b7816329-0e29-47ee-a75a-bc6c41cdc51f.png" />
+</p>
 
 # Compiling
   
