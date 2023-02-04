@@ -26,6 +26,9 @@ That's how the grabbers works when other device is disconnected from the USB por
 ![fast](https://user-images.githubusercontent.com/69086569/129419160-c546a0ea-4990-4215-a0a9-8fb1288e0ac9.jpg)
   
 # Software configuration (HyperHDR v17 and above)
+
+**In HyperHDR `Image Processing→Smoothing→Update frequency` you should do not exceed the maximum capacity of the device.**
+
 Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards or 'standard' for other devices.    
 Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
 Enabling "White channel calibration" is optional, if you want to fine tune the white channel balance of your sk6812 RGBW LED strip.
@@ -110,6 +113,14 @@ For the RGBW firmware the white channel is automatically calculated and R,G,B ch
 | 300LEDs<br>Refresh rate/continues output=83Hz  |          83        |
 | 600LEDs<br>Refresh rate/continues output=43Hz  |          42        |
 | 900LEDs<br>Refresh rate/continues output=28Hz  |          28        |
+
+## ESP8266
+
+| LED strip / Device                             | ESP8266 Wemos D1 Pro<br/>HyperSPI v9 |
+|------------------------------------------------|---------------------|
+| 300LEDs<br>Refresh rate/continues output=70Hz  |          70         |
+| 600LEDs<br>Refresh rate/continues output=33Hz  |          33         |
+| 900LEDs<br>Refresh rate/continues output=22Hz  |          22         |
 
 # Example of supported boards
 
