@@ -15,6 +15,7 @@ Rpi acts as a master, ESP8266/ESP32 is in slave mode.
 - SPI is much faster. HyperSPI works best at speed over 20Mb.
 - SPI doesn't have any data integration check. But AWA protocol does have one.
 - you don't need to have 2Mb capable serial port on your ESP board.
+- SPI transmission is much lighter than serial communication
 - I needed it and I was able to implemented it ;)
 - There is a hardware limitation for the Rpi current design...even if you connect your grabber to the USB3.0 in the USB2.0 mode the adalight running driver causes quite a big USB transfer drop. So we can replace Adalight with a pure SPI data transfer as an alternative.
 
@@ -33,50 +34,79 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 
 # Hardware connection  
   
-## ESP8266  (only 2 SPI cables are needed: MOSI, SCLK + **short** common ground)  
+## ESP8266
   
-**ESP8266 SPI input:** GPIO 14 for Clock (SCK), GPIO 13 for Data (MOSI)  
-**LED output:** GPIO 2  
-  
-![cables](https://user-images.githubusercontent.com/69086569/129419654-84087cc5-b74f-4d8d-84c3-54ef3d845627.jpg)  
-![rpi](https://user-images.githubusercontent.com/69086569/129419668-17621117-0e3a-4cfc-a5b3-02932824889e.jpg)  
-![esp](https://user-images.githubusercontent.com/69086569/129419687-dbd0d5b0-1b45-4ce5-8666-6469b0970952.jpg)  
-  
-## ESP32 (need 3 SPI cables + **short** common ground)  
-  
-**Warning**: HyperSPI set SPI_MODE0 on default due to a bug with a SPI bit shift [link](https://github.com/espressif/esp-idf/search?q=dma+spi+bit+shift&type=issues), you may need to change it to SPI_MODE3 for slower speeds  
-  
-**ESP32 SPI input:** VSPI interface, GPIO 5 for SPI Chip Select, GPIO 18 for Clock (SCK), GPIO 23 for Data (MOSI)  
-**LED output (non-SPI):** GPIO 2  
-  
-![esp2](https://user-images.githubusercontent.com/69086569/130372512-d3dd4dde-5069-4ad9-8649-7ea8e874ee07.jpg)
-![esp](https://user-images.githubusercontent.com/69086569/130372517-dfc61fd4-e700-49f1-b3a1-b56c8468837f.jpg)
+| ESP8266     | PINOUT    |
+|-------------|-----------|
+| Clock (SCK) | GPIO 14   |
+| Data (MOSI) | GPIO 13   |
+| GROUND      | mandatory |
+| LED output  | GPIO 2    | 
 
-## ESP32-S2 mini (need 3 SPI cables + **short** common ground)  
   
-**ESP32-S2 SPI input:** FSPI interface, GPIO 12 for SPI Chip Select, GPIO 7 for Clock (SCK), GPIO 11 for Data (MOSI)  
-**LED output (non-SPI):** GPIO 2  
+## ESP32
+
+| ESP32                     | PINOUT    |
+|---------------------------|-----------|
+| Clock (SCK)               | GPIO 18   |
+| Data (MOSI)               | GPIO 23   |
+| SPI Chip Select(e.g. CE0) | GPIO 5    |
+| GROUND                    | mandatory |
+| LED output                | GPIO 2    |
+  
+
+## ESP32-S2 lolin mini
+
+| ESP32-S2 lolin mini       | PINOUT    |
+|---------------------------|-----------|
+| Clock (SCK)               | GPIO 7    |
+| Data (MOSI)               | GPIO 11   |
+| SPI Chip Select(e.g. CE0) | GPIO 12   |
+| GROUND                    | mandatory |
+| LED output                | GPIO 2    |
+
+
+
+If you are using ESP board compatible with Wemos board (ESP8266, , ESP32-S2 lolin mini) the SPI connection is using the same pinout on the ESP board! LED output pin location may vary. Cables should not rather exceed 15cm or you may need to lower the SPI speed. Look how it's simply to connect ESP to Rpi:
 
 # Compiling
   
-Compile the sketch using Arduino IDE. You need:  
-- https://github.com/espressif/arduino-esp32 (boards for ESP32)
-- https://github.com/esp8266/Arduino/ (boards for ESP8266)  
-- Makuna/NeoPixelBus (install from Arduino IDE: manage libraries)  
-- ESP32DMASPI (install from Arduino IDE: manage libraries)  
-  
-**Options (first lines of the sketch):**  
-  
-For RGB strip like WS8212b comment it with a '//', leave it for RGBW SK6812:  
-*#define   THIS_IS_RGBW*  
-  
-For RGBW cold white LED strip version if above declaration is defined, delete it or comment it with '//' for RGBW neutral:  
-*#define   COLD_WHITE*  
-  
-Skip first led in the strip, that is used as level shifter:  
-*bool      skipFirstLed = true;*  
-  
-Don't change LED's count as it is dynamic.  
+Currently we use PlatformIO to compile the project. Install [Visual Studio Code](https://code.visualstudio.com/) and add [PlatformIO plugin](https://platformio.org/).
+This environment will take care of everything and compile the firmware for you. Low-level LED strip support is provided by my highly optimizated (pre-fill I2S DMA modes, turbo I2S parallel mode for up to 2 segments etc) version of Neopixelbus library: [link](https://github.com/awawa-dev/NeoPixelBus).
+
+But there is also an alternative and an easier way. Just fork the project and enable its Github Action. Use the online editor to make changes to the ```platformio.ini``` file, for example change default pin-outs or enable multi-segments support, and save it. Github Action will compile new firmware automatically in the Artifacts archive. It has never been so easy!
+
+Tutorial: https://github.com/awawa-dev/HyperSPI/wiki
+
+# Multi-Segment Wiring
+
+Proposed example of building a multisegment:
+- Divide a long or dense strip of LEDs into 2 smaller equal parts. So `SECOND_SEGMENT_START_INDEX` in the HyperSerialESP32 firmware is the total number of LEDs divided by 2.
+- Build your first segment traditional way e.g. clockwise, so it starts somewhere in middle of the bottom of frame/TV and ends in the middle of the top of frame/TV
+- Start the second segment in the opposite direction to the first one e.g. counterclockwise (`SECOND_SEGMENT_REVERSED` option in the HyperSerialESP32 firmware configuration must be enabled). So it starts somewhere in the middle of the bottom of the frame/TV and ends in the middle of the top of the TV/frame. Both segments should be connected at the top but only 5v and ground ( NOT the data line).
+- The data line starts for both segments somewhere in the middle of the bottom of the TV/frame (where each of the LED strips starts)
+- Configuration in HyperHDR does not change! It's should be configured as one, single continues segment. All is done in HyperSerialESP32 firmware transparently and does not affect LED strip configuration in HyperHDR.
+
+You also must configure data pin in the `platformio.ini`. Review the comments at the top of the file:
+* `SECOND_SEGMENT_DATA_PIN` - These is data pin for your second strip
+
+You add these to your board's config. Be sure to put `-D` in front of each setting. 
+
+Examples of final build_flags for 288 LEDs divided into 2 equal segments in the `platformio.ini`:
+```
+[env:SK6812_RGBW_COLD]
+build_flags = -DNEOPIXEL_RGBW -DCOLD_WHITE -DDATA_PIN=2 ${env.build_flags} -DSECOND_SEGMENT_START_INDEX=144 -DSECOND_SEGMENT_DATA_PIN=4 -DSECOND_SEGMENT_REVERSED
+...
+[env:WS281x_RGB]
+build_flags = -DNEOPIXEL_RGB -DDATA_PIN=2 ${env.build_flags} -DSECOND_SEGMENT_START_INDEX=144 -DSECOND_SEGMENT_DATA_PIN=4 -DSECOND_SEGMENT_REVERSED
+...
+```
+
+# Performance output
+
+The output is only available when HyperHDR is not using the device at the moment, so it should be disabled in the app for a while. Stores the last result when HyperHDR was running in the current session. You can read it from the serial port at a speed of 115200.
+
+![obraz](https://user-images.githubusercontent.com/69086569/216762783-0ce47e57-98a7-474d-aa84-7e5afb42d294.png)
 
 
 
