@@ -27,7 +27,7 @@ That's how the grabbers works when other device is disconnected from the USB por
   
 # Software configuration (HyperHDR v17 and above)
 
-**In HyperHDR `Image Processing→Smoothing→Update frequency` you should do not exceed the maximum capacity of the device.**
+**In HyperHDR `Image Processing→Smoothing→Update frequency` you should do not exceed the maximum capacity of the device. Read more here: [testing performance](https://github.com/awawa-dev/HyperSPI#performance-output)**
 
 Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards or 'standard' for other devices.    
 Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
