@@ -89,7 +89,7 @@ For the RGBW firmware the white channel is automatically calculated and R,G,B ch
 
 ## ESP32 & ESP32-S2 parallel multi-segment mode
 
-| LED strip / Device                                                                      | ESP32 MH-ET LIVE minibr>HyperSPI v9 |  ESP32-S2 Lolin minibr>HyperSPI v9 |
+| LED strip / Device                                                                      | ESP32 MH-ET LIVE mini<br/>HyperSPI v9 |  ESP32-S2 Lolin mini<br/>HyperSPI v9 |
 |-----------------------------------------------------------------------------------------|-----------------------|----------------------|
 | 300LEDs sk6812<br>Refresh rate/continues output=100Hz<br>SECOND_SEGMENT_START_INDEX=150 |          100          |          100         |
 | 600LEDs sk6812<br>Refresh rate/continues output=83Hz<br>SECOND_SEGMENT_START_INDEX=300  |           83          |           83         |
@@ -97,7 +97,7 @@ For the RGBW firmware the white channel is automatically calculated and R,G,B ch
 
 ## ESP32
 
-| LED strip / Device                             | ESP32 MH ET Live<br>HyperSPI v9 |
+| LED strip / Device                             | ESP32 MH ET Live<br/>HyperSPI v9 |
 |------------------------------------------------|-----------------|
 | 300LEDs<br>Refresh rate/continues output=83Hz  |        83       |
 | 600LEDs<br>Refresh rate/continues output=43Hz  |      42-43      |
@@ -105,7 +105,7 @@ For the RGBW firmware the white channel is automatically calculated and R,G,B ch
 
 ## ESP32-S2
 
-| LED strip / Device                             | ESP32-S2 Lolin mini<br>HyperSPI v9 |
+| LED strip / Device                             | ESP32-S2 Lolin mini<br/>HyperSPI v9 |
 |------------------------------------------------|--------------------|
 | 300LEDs<br>Refresh rate/continues output=83Hz  |          83        |
 | 600LEDs<br>Refresh rate/continues output=43Hz  |          42        |
