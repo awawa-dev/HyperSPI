@@ -69,6 +69,22 @@ If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/
 | GROUND                    | mandatory |
 | LED output                | GPIO 2    |
 
+# Flashing
+  
+Recommend to use [esphome-flasher](https://github.com/esphome/esphome-flasher/releases)  
+
+ESP32-S2 lolin mini requires using `esptool.py` to flash the firmware.
+
+For **RGBW LED strip** like RGBW SK6812 NEUTRAL white choose: *hyperspi_..._SK6812_RGBW_NEUTRAL.bin*  
+  
+For **RGBW LED strip** like RGBW SK6812 COLD white choose: *hyperspi_..._SK6812_RGBW_COLD.bin*  
+  
+For **RGB LED strip** like WS8212b or RGB SK6812 variant choose: *hyperspi_..._WS281x_RGB.bin*  
+    
+If you want to disable your first LED because it's used as a sacrificial level shifter, please use [HyperHDR v19](https://github.com/awawa-dev/HyperHDR/pull/379) 
+
+For the RGBW firmware the white channel is automatically calculated and R,G,B channels are corrected.  
+
 # Example of supported boards
 
 **Esp8266 Wemos D1 mini (CH340) and Wemos D1 mini pro (CP2104)**  
