@@ -74,9 +74,18 @@ If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/
 
 # Flashing
   
-Recommend to use [esphome-flasher](https://github.com/esphome/esphome-flasher/releases)  
+**ESP32-S2 Lolin mini:**
 
-ESP32-S2 lolin mini requires using `esptool.py` to flash the firmware.
+Requires using `esptool.py` to flash the firmware e.g.  
+
+`esptool.py write_flash 0x10000 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.bin`
+
+Troubleshooting:  
+To erase the flash which is usually not neccesery, execute following command before uploading the firmware: `esptool.py erase_flash`. If esptool.py can't find the ESP32-S2 port or can't switch it automatically into the bootloader mode: press board `reset` + `en` buttons, then release `reset`, next release `en` and start flashing it with esptool.py. Remember to manually reset the board afterwards: esptool.py won't be able to do that.
+
+**Generic Esp8266/ESP32:**
+
+Recommend to use [esphome-flasher](https://github.com/esphome/esphome-flasher/releases)  
 
 For **RGBW LED strip** like RGBW SK6812 NEUTRAL white choose: *hyperspi_..._SK6812_RGBW_NEUTRAL.bin*  
   
@@ -146,11 +155,11 @@ Tutorial: https://github.com/awawa-dev/HyperSPI/wiki
 # Multi-Segment Wiring (ESP32 and ESP32-S2 only)
 
 Using parallel multi-segment allows you to double your Neopixel (e.g. sk6812 RGBW) LED strip refresh rate by dividing it into two smaller equal parts. Both smaller segments are perfectly in sync so you don't need to worry about it. Proposed example of building a multisegment:
-- Divide a long or dense strip of LEDs into 2 smaller equal parts. So `SECOND_SEGMENT_START_INDEX` in the HyperSerialESP32 firmware is the total number of LEDs divided by 2.
+- Divide a long or dense strip of LEDs into 2 smaller equal parts. So `SECOND_SEGMENT_START_INDEX` in the HyperSPI firmware is the total number of LEDs divided by 2.
 - Build your first segment traditional way e.g. clockwise, so it starts somewhere in middle of the bottom of frame/TV and ends in the middle of the top of frame/TV
-- Start the second segment in the opposite direction to the first one e.g. counterclockwise (`SECOND_SEGMENT_REVERSED` option in the HyperSerialESP32 firmware configuration must be enabled). So it starts somewhere in the middle of the bottom of the frame/TV and ends in the middle of the top of the TV/frame. Both segments could be connected if possible at the top but only 5v and ground ( NOT the data line).
+- Start the second segment in the opposite direction to the first one e.g. counterclockwise (`SECOND_SEGMENT_REVERSED` option in the HyperSPI firmware configuration must be enabled). So it starts somewhere in the middle of the bottom of the frame/TV and ends in the middle of the top of the TV/frame. Both segments could be connected if possible at the top but only 5v and ground ( NOT the data line).
 - The data line starts for both segments somewhere in the middle of the bottom of the TV/frame (where each of the LED strips starts)
-- Configuration in HyperHDR does not change! It's should be configured as one, single continues segment. All is done in HyperSerialESP32 firmware transparently and does not affect LED strip configuration in HyperHDR.
+- Configuration in HyperHDR does not change! It's should be configured as one, single continues segment. All is done in HyperSPI firmware transparently and does not affect LED strip configuration in HyperHDR.
 
 You also must configure data pin in the `platformio.ini`. Review the comments at the top of the file:
 * `SECOND_SEGMENT_DATA_PIN` - These is data pin for your second strip
