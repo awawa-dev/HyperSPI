@@ -219,7 +219,7 @@ void mainLoop()
 				if (count + 1 != pixelCount)
 					Init(count + 1);
 
-				state = AwaProtocol::RED;				
+				state = AwaProtocol::RED;
 			}
 			else
 				state = AwaProtocol::HEADER_A;
@@ -324,7 +324,7 @@ void mainLoop()
 			{
 				wantShow = true;
 				ShowMe();
-			
+
 
 				if (version2)
 				{

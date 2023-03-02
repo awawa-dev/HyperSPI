@@ -99,7 +99,7 @@
 					#undef LED_DRIVER
 					#define LED_DRIVER NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0X8Sk6812Method>
 					#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0X8Sk6812Method>
-				#else			
+				#else
 					#define LED_DRIVER2 NeoPixelBus<NeoGrbwFeature, NeoEsp32I2s0Sk6812Method>
 				#endif
 			#elif NEOPIXEL_RGB
@@ -139,7 +139,7 @@
 		#pragma message(VAR_NAME_VALUE2(LED_DRIVER2))
 	#else
 		#pragma message(VAR_NAME_VALUE2(LED_DRIVER))
-		
+
 		class LED_DRIVER2 {
 			public:
 			bool CanShow() {return true;}
@@ -212,7 +212,7 @@ static const uint32_t BUFFER_SIZE = REAL_BUFFER + 8;
 		else
 		{
 			taskEXIT_CRITICAL(&spiMutex);
-		}	
+		}
 	}
 
 	void task_wait_spi(void *pvParameters)
@@ -243,14 +243,14 @@ static const uint32_t BUFFER_SIZE = REAL_BUFFER + 8;
 
 	/**
 	 * @brief separete thread for handling incoming data using cyclic buffer
-	 * 
-	 * @param parameters 
+	 *
+	 * @param parameters
 	 */
 	void processDataTask(void * parameters)
 	{
 		for(;;)
 		{
-			xSemaphoreTake(base.i2sXSemaphore, portMAX_DELAY);	
+			xSemaphoreTake(base.i2sXSemaphore, portMAX_DELAY);
 			processData();
 		}
 	}
@@ -280,7 +280,7 @@ void setup()
 		Serial.println(HELLO_MESSAGE);
 		#if defined(SECOND_SEGMENT_START_INDEX)
 			SerialPort.write("SECOND_SEGMENT_START_INDEX = ");
-			SerialPort.println(SECOND_SEGMENT_START_INDEX);	
+			SerialPort.println(SECOND_SEGMENT_START_INDEX);
 		#endif
 
 		// Colorspace/Led type info
@@ -301,7 +301,7 @@ void setup()
 		delay(50);
 	#endif
 
-	
+
 
 	// spi stuff
 	#if defined(ARDUINO_ARCH_ESP32)
@@ -311,15 +311,15 @@ void setup()
 		{
 			// create a semaphore to synchronize threads
 			base.i2sXSemaphore = xSemaphoreCreateBinary();
-			
+
 			// create new task for handling received serial data on core 0
 			xTaskCreatePinnedToCore(
 				processDataTask,
 				"processDataTask",
 				5096,
-				NULL,        
-				1,           
-				&base.processDataHandle,      
+				NULL,
+				1,
+				&base.processDataHandle,
 				0);
 		}
 
@@ -360,17 +360,17 @@ void setup()
 
 		SPISlave.begin();
 
-		SPISlave.setStatus(millis());	
+		SPISlave.setStatus(millis());
 	#endif
 }
 
 void loop()
 {
 	if (base.processDataHandle == nullptr)
-	{		
+	{
 		processData();
 	}
-	
+
 	// print
 	unsigned long currentTime = millis();
 	unsigned long deltaTime = currentTime - statistics.getStartTime();
