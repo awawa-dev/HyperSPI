@@ -34,7 +34,7 @@ void Init(int count)
 {
     if (strip != NULL)
         delete strip;
-        
+
     pixelCount = count;
     strip = new NeoPixelBus<DotStarBgrFeature, DotStarEsp32DmaHspiMethod>(pixelCount);
     strip->Begin(CLOCK_PIN, 12, DATA_PIN, 15);
@@ -85,12 +85,12 @@ inline void ShowMe()
         stat_good++;;
         wantShow = false;
         strip->Show();
-    }  
+    }
 }
 
 void mainLoop()
 {
-    unsigned long curTime = millis();   
+    unsigned long curTime = millis();
 
     // stats
     if (curTime - stat_start > 995)
@@ -101,7 +101,7 @@ void mainLoop()
            stat_final_frames = stat_frames;
            stat_final_bad = stat_bad;
        }
-       
+
        stat_start  = curTime;
        stat_good   = 0;
        stat_bad    = 0;
@@ -109,10 +109,10 @@ void mainLoop()
 
        if (curTime - log_start >= 2000)
        {
-           Serial.write("HyperSPI version 1.\r\nStatistics for the last full 1 second cycle.\r\nFrames per second: ");       
-           Serial.print(stat_final_frames);     
+           Serial.write("HyperSPI version 1.\r\nStatistics for the last full 1 second cycle.\r\nFrames per second: ");
+           Serial.print(stat_final_frames);
            Serial.write("\r\nGood frames: ");
-           Serial.print(stat_final_good); 
+           Serial.print(stat_final_good);
            Serial.write("\r\nBad frames:  ");
            Serial.print(stat_final_bad);
            Serial.write("\r\n-------------------------\r\n");
@@ -129,7 +129,7 @@ void mainLoop()
 
         if (currentBufferIndex >= MAX_BUFFER)
             currentBufferIndex = 0;
-          
+
         switch (state)
         {
             case AwaProtocol::HEADER_A:
@@ -146,7 +146,7 @@ void mainLoop()
                      stat_bad++;
                  }
             break;
-            
+
             case AwaProtocol::HEADER_a:
                  if (input == 'a')
                      state = AwaProtocol::HEADER_HI;
@@ -156,7 +156,7 @@ void mainLoop()
                      stat_bad++;
                  }
             break;
-            
+
             case AwaProtocol::HEADER_HI:
                  stat_frames++;
                  currentPixel = 0;
@@ -178,7 +178,7 @@ void mainLoop()
                  {
                      if (count+1 != pixelCount)
                          Init(count+1);
-                         
+
                      state = AwaProtocol::RED;
                  }
                  else
@@ -205,8 +205,8 @@ void mainLoop()
             break;
 
             case AwaProtocol::BLUE:
-                 inputColor.B = input;  
-                        
+                 inputColor.B = input;
+
                  fletcher1 = (fletcher1 + (uint16_t)input) % 255;
                  fletcher2 = (fletcher2 + fletcher1) % 255;
 
@@ -224,7 +224,7 @@ void mainLoop()
             break;
 
             case AwaProtocol::FLETCHER1:
-                 if (input != fletcher1)                 
+                 if (input != fletcher1)
                  {
                      state = AwaProtocol::HEADER_A;
                      stat_bad++;
@@ -234,10 +234,10 @@ void mainLoop()
             break;
 
             case AwaProtocol::FLETCHER2:
-                 if (input == fletcher2) 
+                 if (input == fletcher2)
                  {
                       wantShow = true;
-                      ShowMe();            
+                      ShowMe();
                  }
                  else
                  {
@@ -261,13 +261,13 @@ void setup()
 {
     // Init serial port
     Serial.begin(serialSpeed);
-    Serial.setTimeout(50);  
-  
+    Serial.setTimeout(50);
+
     // Display config
     Serial.write("\r\nWelcome!\r\nAwa SPI driver.\r\n");
 
-    Serial.write("Color mode: RGB SPI LED strip\r\n");    
-    
+    Serial.write("Color mode: RGB SPI LED strip\r\n");
+
     if (skipFirstLed)
         Serial.write("First LED: disabled\r\n");
     else
@@ -289,7 +289,7 @@ void setup()
 }
 
 void readSpi()
-{       
+{
     if (spi_slave_rx_buf[REAL_BUFFER] == 0xAA)
     {
         if (topBufferIndex + REAL_BUFFER < MAX_BUFFER)
@@ -335,6 +335,6 @@ void task_process_buffer(void* pvParameters)
 }
 
 void loop()
-{   
+{
     mainLoop();
 }

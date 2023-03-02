@@ -266,7 +266,7 @@ void mainLoop()
 			}
 
 			break;
-			
+
 		case AwaProtocol::VERSION2_GAIN:
 			incoming_gain = input;
 			fletcher1 = (fletcher1 + (uint16_t)input) % 255;
@@ -311,7 +311,7 @@ void mainLoop()
 			{
 				wantShow = true;
 				ShowMe();
-			
+
 
 				if (version2)
 				{
