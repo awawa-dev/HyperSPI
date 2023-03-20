@@ -73,12 +73,15 @@ If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/
 | LED output                | GPIO 2    |
 
 # Flashing
-  
+
+There are two versions of the firmware for ESP32 and ESP32-S2. The 'factory' and the 'base' one. Factory firmware should be flashed to offset 0x0, base firmware to offset 0x10000.
+
 **ESP32-S2 Lolin mini:**
 
 Requires using `esptool.py` to flash the firmware e.g.  
 
-`esptool.py write_flash 0x10000 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.bin`
+ - `esptool.py write_flash 0x10000 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.bin` or
+ - `esptool.py write_flash 0x0 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.factory.bin`
 
 Troubleshooting: ESP32-S2 Lolin mini recovery procedure.  
 1. Put the board into dfu mode using board buttons: press board `Rst` + `0` buttons, then release `Rst`, next release `0`  
