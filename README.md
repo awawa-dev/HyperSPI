@@ -22,7 +22,7 @@ Rpi acts as a master, ESP8266/ESP32 is in slave mode.
 See what's happening for USB2.0 bus... my problematic Ezcap 320 @ 50 fps fell back to USB2.0 mode and did not like the CH340G serial port driver at all (real USB3.0 should not be affected, but not tested it):  
 ![slow](https://user-images.githubusercontent.com/69086569/129419155-f6366c27-ea2e-42a9-aa85-ffade3747700.jpg)  
   
-That's how the grabbers works when other device is disconnected from the USB port.
+That's how the grabbers works when other device is disconnected from the USB port.  
 ![fast](https://user-images.githubusercontent.com/69086569/129419160-c546a0ea-4990-4215-a0a9-8fb1288e0ac9.jpg)
   
 # Software configuration (HyperHDR v17 and above)
@@ -40,6 +40,7 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/pro, ESP32 MH-ET Live, ESP32-S2 lolin mini), the SPI connection uses the same pinout location on the ESP board! The pin positions of the LED output may vary. Cables (including ground) should not exceed 15-20cm or it may be necessary to lower the SPI speed. See how easy it is to connect ESP to Rpi:
 
 ![obraz](https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png)
+![obraz](https://user-images.githubusercontent.com/69086569/231207350-a670bfea-a96d-4d21-9e8f-f2ca027105da.png)
   
 ## Default pinout: ESP8266 (can not be changed)
   
