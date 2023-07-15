@@ -3,7 +3,7 @@ SPI bridge for AWA protocol to control a LED strip from HyperHDR.
 Diagnostic and performance data available at the serial port output [read more](#performancedebug-output).  
 Rpi acts as a master, ESP8266/ESP32/ESP32-S2 is in slave mode. 
   
-| LED strip / Device             | ESP8266 |    ESP32    |
+| LED strip / Device             | ESP8266<br>(limited performance) |    ESP32    |
 |--------------------------------|:-------:|:-----------:|
 | SK6812 cold white              |   yes   |     yes     |
 | SK6812 neutral white           |   yes   |     yes     |
