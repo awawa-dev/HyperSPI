@@ -35,7 +35,7 @@ jobs:
     - name: Run PlatformIO
       run: |
         pio run
-        zip -j .pio/build/recovery_firmware.zip .pio/build/*.bin
+        zip -j .pio/build/recovery_firmware.zip .pio/build/*.factory.bin
     - uses: actions/upload-artifact@v3
       name: Upload artifacts (commit)
       if: (startsWith(github.event.ref, 'refs/tags') != true)
