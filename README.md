@@ -199,8 +199,8 @@ For testing maximum performance in HyperHDR enable `Image Processing→Smoothing
 
 You can also use `screen` command to connect to HyperSPI serial port log output.  
 Adjust USB port if necessary e.g.  
-`screen /dev/ttyUSB0 115200`  
-If you want to exit screen press `Ctrl-a` then `k`.
+`screen /dev/ttyACM0 115200`  
+If you want to exit screen press `Ctrl-a` then `k` and confirm exit.
 
 
 
