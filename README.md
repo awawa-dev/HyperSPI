@@ -154,7 +154,8 @@ Implementation example:
 
 **The output is only available when HyperHDR is not using the device at the moment, so it should be disabled in the app for a while.** Stores the last result when HyperHDR was running in the current session. You can read it from the serial port at a speed of 115200.
 
-For example you can `screen` command. First install it: `sudo apt install screen`. Adjust USB port if necessary and connect to the serial port:  
+On Linux you can `screen` command.  
+First install it: `sudo apt install screen`. Adjust USB port if necessary and connect to the serial port:  
 `screen /dev/ttyACM0 115200`  
 If you want to exit screen press `Ctrl-a` then `k` and confirm exit.
 
