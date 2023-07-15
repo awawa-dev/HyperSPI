@@ -97,7 +97,7 @@ Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards
 Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
 Enabling "White channel calibration" is optional, if you want to fine tune the white channel balance of your sk6812 RGBW LED strip.
   
-<img src="https://user-images.githubusercontent.com/69086569/193319124-0054f367-3d30-4e50-8c52-3683c7bbc50e.png" width="1024"/>
+<img src="https://user-images.githubusercontent.com/69086569/193319124-0054f367-3d30-4e50-8c52-3683c7bbc50e.png" width="800"/>
 
 # Benchmark results
 
