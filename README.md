@@ -1,6 +1,6 @@
 # HyperSPI
 SPI bridge for AWA protocol to control a LED strip from HyperHDR.  
-Diagnostic and performance data available at the serial port output [read more](#performance/debug-output).  
+Diagnostic and performance data available at the serial port output [read more](#performancedebug-output).  
 Rpi acts as a master, ESP8266/ESP32 is in slave mode. 
   
 | LED strip / Device             | ESP8266 |    ESP32    |
