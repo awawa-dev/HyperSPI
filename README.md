@@ -21,10 +21,17 @@ Rpi acts as a master, ESP8266/ESP32/ESP32-S2 is in slave mode.
 
 # Hardware connection  
 
-If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/pro, ESP32 MH-ET Live, ESP32-S2 lolin mini), the SPI connection uses the same pinout location on the ESP board! The pin positions of the LED output may vary. Cables (including ground) should not exceed 15-20cm or it may be necessary to lower the SPI speed. See how easy it is to connect ESP to Rpi:
+If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/pro, ESP32 MH-ET Live, ESP32-S2 lolin mini), the SPI connection uses the same pinout location on the ESP board! The pin positions of the LED output may vary. Cables (including ground) should not exceed 15-20cm or it may be necessary to lower the SPI speed. 
 
-![obraz](https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png)
-![obraz](https://user-images.githubusercontent.com/69086569/231207350-a670bfea-a96d-4d21-9e8f-f2ca027105da.png)
+<table>  
+  <tr>
+    <td colspan="2"><p align="center">See how easy it is to connect ESP to Rpi</p></td>
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png"/></td>
+    <td><img src="https://user-images.githubusercontent.com/69086569/231207350-a670bfea-a96d-4d21-9e8f-f2ca027105da.png"/></td>
+  </tr>
+</table>
 
 # Example of supported boards
 
