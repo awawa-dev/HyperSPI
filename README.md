@@ -62,7 +62,7 @@ If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/
 
 # Flashing the firmware
 
-There are two versions of the firmware for ESP32 and ESP32-S2. The 'factory' and the 'base' one. Factory firmware should be flashed to offset 0x0, base firmware to offset 0x10000.
+There are two versions of the firmware for ESP32 and ESP32-S2. The 'factory' (in the `recovery_firmware.zip` archive) and the 'base' one. Factory firmware should be flashed to offset 0x0, base firmware to offset 0x10000.
 
 ## Flashing ESP32-S2 Lolin mini
 
