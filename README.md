@@ -1,7 +1,7 @@
 # HyperSPI
 SPI bridge for AWA protocol to control a LED strip from HyperHDR.  
 Diagnostic and performance data available at the serial port output [read more](#performancedebug-output).  
-Rpi acts as a master, ESP8266/ESP32 is in slave mode. 
+Rpi acts as a master, ESP8266/ESP32/ESP32-S2 is in slave mode. 
   
 | LED strip / Device             | ESP8266 |    ESP32    |
 |--------------------------------|:-------:|:-----------:|
@@ -12,12 +12,12 @@ Rpi acts as a master, ESP8266/ESP32 is in slave mode.
   
 # Why this project was created?
 
-- SPI is much faster. HyperSPI works best at speed over 20Mb.
-- SPI doesn't have any data integration check. But AWA protocol does have one.
-- you don't need to have 2Mb capable serial port on your ESP board.
+- SPI is very faster. HyperSPI works best at speed over 20Mb
+- SPI doesn't have any data integration check. But AWA protocol does have one
+- you don't need to have 2Mb capable serial port on your ESP board
 - SPI transmission is much lighter than serial communication
+- There is a hardware limitation for the Rpi current design...even if you connect your grabber using USB2.0 mode, working serial port driver (used by Adalight) results in quite a large overall USB transfer. So we can replace Adalight with a pure SPI data transfer as an alternative
 - I needed it and I was able to implemented it 😉
-- There is a hardware limitation for the Rpi current design...even if you connect your grabber using USB2.0 mode, the adalight running driver causes quite a big USB transfer drop. So we can replace Adalight with a pure SPI data transfer as an alternative.
 
 # Hardware connection  
 
@@ -156,8 +156,8 @@ Implementation example:
 
 For testing maximum performance in HyperHDR enable `Image Processing→Smoothing→Continuous output`, high `Update frequency` in the same tab and set any color in the `Remote control` tab as an active effect. After testing you need to disable `Continuous output`and set `Update frequency` according to your results.
 
-![obraz](https://user-images.githubusercontent.com/69086569/216762783-0ce47e57-98a7-474d-aa84-7e5afb42d294.png)
-
+![obraz](https://user-images.githubusercontent.com/69086569/216762783-0ce47e57-98a7-474d-aa84-7e5afb42d294.png)  
+  
 You can also use `screen` command to connect to HyperSPI serial port log output.  
 Adjust USB port if necessary e.g.  
 `screen /dev/ttyACM0 115200`  
