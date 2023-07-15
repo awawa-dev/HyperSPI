@@ -39,14 +39,15 @@ If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/
 
 # Example of supported boards
 
-**Esp8266 Wemos D1 mini (CH340) and Wemos D1 mini pro (CP2104)**  
+
 <p align="center">
-<img src="https://user-images.githubusercontent.com/69086569/207572306-2b0bd3dd-fcb2-4f0c-8426-64341cbbadbf.png" /><img src="https://user-images.githubusercontent.com/69086569/207572335-9caf2567-2e23-4ee4-85a4-0f2f82676c16.png" />
+<b>Esp8266 Wemos D1 mini (CH340) and Wemos D1 mini pro (CP2104)</b><br/>
+<img src="https://user-images.githubusercontent.com/69086569/207572306-2b0bd3dd-fcb2-4f0c-8426-64341cbbadbf.png" width="250" /><img src="https://user-images.githubusercontent.com/69086569/207572335-9caf2567-2e23-4ee4-85a4-0f2f82676c16.png" width="250" />
 </p>
-  
-**ESP32 MH-ET Live and ESP32-S2 Lolin mini (CDC)**  
+
 <p align="center">
-<img src="https://user-images.githubusercontent.com/69086569/207587620-1c4c53c8-426c-486e-a6d9-d429fd1b050d.png" /><img src="https://user-images.githubusercontent.com/69086569/207587635-b7816329-0e29-47ee-a75a-bc6c41cdc51f.png" />
+<b>ESP32 MH-ET Live and ESP32-S2 Lolin mini (CDC)</b><br/>
+<img src="https://user-images.githubusercontent.com/69086569/207587620-1c4c53c8-426c-486e-a6d9-d429fd1b050d.png" width="250"/><img src="https://user-images.githubusercontent.com/69086569/207587635-b7816329-0e29-47ee-a75a-bc6c41cdc51f.png" width="250"/>
 </p>
 
 ## Default pinout (can be changed for esp32 and esp32-s2)
@@ -96,7 +97,7 @@ Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards
 Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
 Enabling "White channel calibration" is optional, if you want to fine tune the white channel balance of your sk6812 RGBW LED strip.
   
-![obraz](https://user-images.githubusercontent.com/69086569/193319124-0054f367-3d30-4e50-8c52-3683c7bbc50e.png)
+<img src="https://user-images.githubusercontent.com/69086569/193319124-0054f367-3d30-4e50-8c52-3683c7bbc50e.png)
 
 # Benchmark results
 
@@ -159,7 +160,7 @@ build_flags = -DNEOPIXEL_RGB -DDATA_PIN=2 ${env.build_flags} -DSECOND_SEGMENT_ST
 Implementation example:
 - The diagram of the board for WS2812b/SK6812 including ESP32 and the SN74AHCT125N 74AHCT125 [level shifter](https://github.com/awawa-dev/HyperHDR/wiki/Level-Shifter).
 
-![HyperSPI](https://user-images.githubusercontent.com/85223482/222923979-f344349a-1f8b-4195-94ca-51721923359e.png)
+![HyperSPI](https://user-images.githubusercontent.com/85223482/222923979-f344349a-1f8b-4195-94ca-51721923359e.png width="1024"/>
 
 # Performance/debug output
 
