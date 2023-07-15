@@ -118,19 +118,11 @@ For the RGBW firmware the white channel is automatically calculated and R,G,B ch
 
 ## ESP32
 
-| LED strip / Device                             | ESP32 MH ET Live<br/>HyperSPI v9 |
-|------------------------------------------------|-----------------|
-| 300LEDs RGBW<br>Refresh rate/continues output=83Hz  |        83       |
-| 600LEDs RGBW<br>Refresh rate/continues output=43Hz  |      42-43      |
-| 900LEDs RGBW<br>Refresh rate/continues output=28Hz  |       28        |
-
-## ESP32-S2
-
-| LED strip / Device                             | ESP32-S2 Lolin mini<br/>HyperSPI v9 |
-|------------------------------------------------|--------------------|
-| 300LEDs RGBW<br>Refresh rate/continues output=83Hz  |          83        |
-| 600LEDs RGBW<br>Refresh rate/continues output=43Hz  |          42        |
-| 900LEDs RGBW<br>Refresh rate/continues output=28Hz  |          28        |
+| LED strip / Device                             | ESP32 MH ET Live<br/>HyperSPI v9 | ESP32-S2 Lolin mini<br/>HyperSPI v9 |
+|------------------------------------------------|-----------------|--------------------|
+| 300LEDs RGBW<br>Refresh rate/continues output=83Hz  |        83       |          83        |
+| 600LEDs RGBW<br>Refresh rate/continues output=43Hz  |      42-43      |          42        |
+| 900LEDs RGBW<br>Refresh rate/continues output=28Hz  |       28        |          28        |
 
 ## ESP8266
 
@@ -191,7 +183,7 @@ Implementation example:
 
 # Performance/debug output
 
-The output is only available when HyperHDR is not using the device at the moment, so it should be disabled in the app for a while. Stores the last result when HyperHDR was running in the current session. You can read it from the serial port at a speed of 115200.
+**The output is only available when HyperHDR is not using the device at the moment, so it should be disabled in the app for a while.** Stores the last result when HyperHDR was running in the current session. You can read it from the serial port at a speed of 115200.
 
 For testing maximum performance in HyperHDR enable `Image Processing→Smoothing→Continuous output`, high `Update frequency` in the same tab and set any color in the `Remote control` tab as an active effect. After testing you need to disable `Continuous output`and set `Update frequency` according to your results.
 
