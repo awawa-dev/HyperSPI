@@ -33,13 +33,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install --upgrade platformio
     - name: Run PlatformIO
-      run: pio run
+      run: |
+        pio run
+        zip -j .pio/build/recovery_firmware.zip .pio/build/*.factory.bin
+        rm -f .pio/build/*.factory.bin
+
     - uses: actions/upload-artifact@v3
       name: Upload artifacts (commit)
       if: (startsWith(github.event.ref, 'refs/tags') != true)
       with:
         path: |
           .pio/build/*.bin
+          .pio/build/recovery_firmware.zip
 
     - uses: actions/upload-artifact@v3
       name: Upload artifacts (release)
@@ -48,6 +53,7 @@ jobs:
         name: firmware-release
         path: |
           .pio/build/*.bin
+          .pio/build/recovery_firmware.zip
 
 ################################
 ###### Publish Releases ########
@@ -82,6 +88,7 @@ jobs:
           tag_name: ${{ env.TAG }}
           files: |
             *.bin
+            *.zip
           draft: true
           prerelease: ${{ env.preRelease }}
         env:
