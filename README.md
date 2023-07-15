@@ -1,6 +1,6 @@
 # HyperSPI
-SPI bridge for AWA protocol to control a LED strip from HyperHDR (version v17 and above).  
-Diagnostic data available at the serial port output (@115200 speed).  
+SPI bridge for AWA protocol to control a LED strip from HyperHDR.  
+Diagnostic and performance data available at the serial port output [read more](#performance/debug-output).  
 Rpi acts as a master, ESP8266/ESP32 is in slave mode. 
   
 | LED strip / Device             | ESP8266 |    ESP32    |
@@ -17,23 +17,7 @@ Rpi acts as a master, ESP8266/ESP32 is in slave mode.
 - you don't need to have 2Mb capable serial port on your ESP board.
 - SPI transmission is much lighter than serial communication
 - I needed it and I was able to implemented it 😉
-- There is a hardware limitation for the Rpi current design...even if you connect your grabber to the USB3.0 in the USB2.0 mode the adalight running driver causes quite a big USB transfer drop. So we can replace Adalight with a pure SPI data transfer as an alternative.
-
-See what's happening for USB2.0 bus... my problematic Ezcap 320 @ 50 fps fell back to USB2.0 mode and did not like the CH340G serial port driver at all (real USB3.0 should not be affected, but not tested it):  
-![slow](https://user-images.githubusercontent.com/69086569/129419155-f6366c27-ea2e-42a9-aa85-ffade3747700.jpg)  
-  
-That's how the grabbers works when other device is disconnected from the USB port.  
-![fast](https://user-images.githubusercontent.com/69086569/129419160-c546a0ea-4990-4215-a0a9-8fb1288e0ac9.jpg)
-  
-# Software configuration (HyperHDR v17 and above)
-
-**In HyperHDR `Image Processing→Smoothing→Update frequency` you should do not exceed the maximum capacity of the device. Read more here: [testing performance](https://github.com/awawa-dev/HyperSPI#performance-output)**
-
-Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards or 'standard' for other devices.    
-Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
-Enabling "White channel calibration" is optional, if you want to fine tune the white channel balance of your sk6812 RGBW LED strip.
-  
-![obraz](https://user-images.githubusercontent.com/69086569/193319124-0054f367-3d30-4e50-8c52-3683c7bbc50e.png)
+- There is a hardware limitation for the Rpi current design...even if you connect your grabber using USB2.0 mode, the adalight running driver causes quite a big USB transfer drop. So we can replace Adalight with a pure SPI data transfer as an alternative.
 
 # Hardware connection  
 
@@ -41,43 +25,34 @@ If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/
 
 ![obraz](https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png)
 ![obraz](https://user-images.githubusercontent.com/69086569/231207350-a670bfea-a96d-4d21-9e8f-f2ca027105da.png)
+
+# Example of supported boards
+
+**Esp8266 Wemos D1 mini (CH340) and Wemos D1 mini pro (CP2104)**  
+<p align="center">
+<img src="https://user-images.githubusercontent.com/69086569/207572306-2b0bd3dd-fcb2-4f0c-8426-64341cbbadbf.png" /><img src="https://user-images.githubusercontent.com/69086569/207572335-9caf2567-2e23-4ee4-85a4-0f2f82676c16.png" />
+</p>
   
-## Default pinout: ESP8266 (can not be changed)
+**ESP32 MH-ET Live and ESP32-S2 Lolin mini (CDC)**  
+<p align="center">
+<img src="https://user-images.githubusercontent.com/69086569/207587620-1c4c53c8-426c-486e-a6d9-d429fd1b050d.png" /><img src="https://user-images.githubusercontent.com/69086569/207587635-b7816329-0e29-47ee-a75a-bc6c41cdc51f.png" />
+</p>
+
+## Default pinout (can be changed for esp32 and esp32-s2)
   
-| ESP8266     | PINOUT    |
-|-------------|-----------|
-| Clock (SCK) | GPIO 14   |
-| Data (MOSI) | GPIO 13   |
-| GROUND      | mandatory |
-| LED output  | GPIO 2    | 
+|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 lolin mini|
+|-------------|-----------|-----------|-----------|
+| Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    |
+| Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   |
+| SPI Chip Select(e.g. CE0) | not used    | GPIO 5    | GPIO 12   |
+| GROUND      | mandatory | mandatory | mandatory |
+| LED output  | GPIO 2    | GPIO 2    | GPIO 2    |
 
-  
-## Default pinout: ESP32 (can be changed)
-
-| ESP32                     | PINOUT    |
-|---------------------------|-----------|
-| Clock (SCK)               | GPIO 18   |
-| Data (MOSI)               | GPIO 23   |
-| SPI Chip Select(e.g. CE0) | GPIO 5    |
-| GROUND                    | mandatory |
-| LED output                | GPIO 2    |
-  
-
-## Default pinout: ESP32-S2 lolin mini (can be changed)
-
-| ESP32-S2 lolin mini       | PINOUT    |
-|---------------------------|-----------|
-| Clock (SCK)               | GPIO 7    |
-| Data (MOSI)               | GPIO 11   |
-| SPI Chip Select(e.g. CE0) | GPIO 12   |
-| GROUND                    | mandatory |
-| LED output                | GPIO 2    |
-
-# Flashing
+# Flashing the firmware
 
 There are two versions of the firmware for ESP32 and ESP32-S2. The 'factory' and the 'base' one. Factory firmware should be flashed to offset 0x0, base firmware to offset 0x10000.
 
-**ESP32-S2 Lolin mini:**
+## Flashing ESP32-S2 Lolin mini
 
 Requires using `esptool.py` to flash the firmware e.g.  
  - `esptool.py write_flash 0x10000 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.bin` or
@@ -91,7 +66,7 @@ Do not reset or disconnect the board until the end of the recovery procedure.
 `esptool.py write_flash 0x0 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.factory.bin`  
 4. Reset the board manually with the `Rst` button. The board should be detected as a COM port in the system.
 
-**Generic Esp8266/ESP32:**
+## Flashing generic Esp8266/ESP32
 
 Recommend to use [esphome-flasher](https://github.com/esphome/esphome-flasher/releases)  
 Or use `esptool.py` e.g.  
@@ -101,10 +76,16 @@ Or use `esptool.py` e.g.
 For **RGBW LED strip** like RGBW SK6812 NEUTRAL white choose: *hyperspi_..._SK6812_RGBW_NEUTRAL.bin*  
 For **RGBW LED strip** like RGBW SK6812 COLD white choose: *hyperspi_..._SK6812_RGBW_COLD.bin*  
 For **RGB LED strip** like WS8212b or RGB SK6812 variant choose: *hyperspi_..._WS281x_RGB.bin*  
-    
-If you want to disable your first LED because it's used as a sacrificial level shifter, please use [HyperHDR v19](https://github.com/awawa-dev/HyperHDR/pull/379) 
+  
+# Software configuration (HyperHDR v17 and above)
 
-For the RGBW firmware the white channel is automatically calculated and R,G,B channels are corrected.  
+**In HyperHDR `Image Processing→Smoothing→Update frequency` you should do not exceed the maximum capacity of the device. Read more here: [testing performance](https://github.com/awawa-dev/HyperSPI#performance-output)**
+
+Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards or 'standard' for other devices.    
+Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
+Enabling "White channel calibration" is optional, if you want to fine tune the white channel balance of your sk6812 RGBW LED strip.
+  
+![obraz](https://user-images.githubusercontent.com/69086569/193319124-0054f367-3d30-4e50-8c52-3683c7bbc50e.png)
 
 # Benchmark results
 
@@ -132,24 +113,12 @@ For the RGBW firmware the white channel is automatically calculated and R,G,B ch
 | 600LEDs RGBW<br>Refresh rate/continues output=33Hz  |          33         |
 | 900LEDs RGBW<br>Refresh rate/continues output=22Hz  |          22         |
 
-# Example of supported boards
-
-**Esp8266 Wemos D1 mini (CH340) and Wemos D1 mini pro (CP2104)**  
-<p align="center">
-<img src="https://user-images.githubusercontent.com/69086569/207572306-2b0bd3dd-fcb2-4f0c-8426-64341cbbadbf.png" /><img src="https://user-images.githubusercontent.com/69086569/207572335-9caf2567-2e23-4ee4-85a4-0f2f82676c16.png" />
-</p>
-  
-**ESP32 MH-ET Live and ESP32-S2 Lolin mini (CDC)**  
-<p align="center">
-<img src="https://user-images.githubusercontent.com/69086569/207587620-1c4c53c8-426c-486e-a6d9-d429fd1b050d.png" /><img src="https://user-images.githubusercontent.com/69086569/207587635-b7816329-0e29-47ee-a75a-bc6c41cdc51f.png" />
-</p>
-
 # Compiling
   
 Currently we use PlatformIO to compile the project. Install [Visual Studio Code](https://code.visualstudio.com/) and add [PlatformIO plugin](https://platformio.org/).
 This environment will take care of everything and compile the firmware for you. Low-level LED strip support is provided by my highly optimizated (pre-fill I2S DMA modes, turbo I2S parallel mode for up to 2 segments etc) version of Neopixelbus library: [link](https://github.com/awawa-dev/NeoPixelBus).
 
-But there is also an alternative and an easier way. Just fork the project and enable its Github Action. Use the online editor to make changes to the ```platformio.ini``` file, for example change default pin-outs or enable multi-segments support, and save it. Github Action will compile new firmware automatically in the Artifacts archive. It has never been so easy!
+But there is also an alternative and an easier way. Just fork the project and enable its Github Action. Use the online editor to make changes to the ```platformio.ini``` file, for example change default pin-outs or enable multi-segments support, and save it. Github Action will compile new firmware automatically in the Artifacts archive. It has never been so easy! Just remember to follow the steps in the correct order otherwise the Github Action may not be triggered the first time after saving the changes.
 
 Tutorial: https://github.com/awawa-dev/HyperSPI/wiki
 
