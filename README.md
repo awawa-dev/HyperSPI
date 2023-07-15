@@ -80,7 +80,6 @@ There are two versions of the firmware for ESP32 and ESP32-S2. The 'factory' and
 **ESP32-S2 Lolin mini:**
 
 Requires using `esptool.py` to flash the firmware e.g.  
-
  - `esptool.py write_flash 0x10000 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.bin` or
  - `esptool.py write_flash 0x0 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.factory.bin`
 
@@ -95,11 +94,12 @@ Do not reset or disconnect the board until the end of the recovery procedure.
 **Generic Esp8266/ESP32:**
 
 Recommend to use [esphome-flasher](https://github.com/esphome/esphome-flasher/releases)  
+Or use `esptool.py` e.g.  
+ - `esptool.py write_flash 0x10000 hyperspi_esp32_SK6812_RGBW_COLD.bin` or
+ - `esptool.py write_flash 0x0 hyperspi_esp32_SK6812_RGBW_COLD.factory.bin`
 
 For **RGBW LED strip** like RGBW SK6812 NEUTRAL white choose: *hyperspi_..._SK6812_RGBW_NEUTRAL.bin*  
-  
 For **RGBW LED strip** like RGBW SK6812 COLD white choose: *hyperspi_..._SK6812_RGBW_COLD.bin*  
-  
 For **RGB LED strip** like WS8212b or RGB SK6812 variant choose: *hyperspi_..._WS281x_RGB.bin*  
     
 If you want to disable your first LED because it's used as a sacrificial level shifter, please use [HyperHDR v19](https://github.com/awawa-dev/HyperHDR/pull/379) 
