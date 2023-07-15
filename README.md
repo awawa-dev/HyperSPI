@@ -25,7 +25,11 @@ If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/
 
 <table>  
   <tr>
-    <td colspan="2"><p align="center">See how easy it is to connect ESP to Rpi</p></td>
+    <td colspan="2"><p align="center">See how easy it is to connect ESP to Raspberry Pi using SPI</p></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/1e500ca3-e93d-4082-af59-b701e6274a29"/></td>
+    <td><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/6e9ea441-312e-46d8-99b0-d33fc0b9f923"/></td>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png"/></td>
