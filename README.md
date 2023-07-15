@@ -189,13 +189,19 @@ Implementation example:
 
 ![HyperSPI](https://user-images.githubusercontent.com/85223482/222923979-f344349a-1f8b-4195-94ca-51721923359e.png)
 
-# Performance output
+# Performance/debug output
 
 The output is only available when HyperHDR is not using the device at the moment, so it should be disabled in the app for a while. Stores the last result when HyperHDR was running in the current session. You can read it from the serial port at a speed of 115200.
 
 For testing maximum performance in HyperHDR enable `Image Processing→Smoothing→Continuous output`, high `Update frequency` in the same tab and set any color in the `Remote control` tab as an active effect. After testing you need to disable `Continuous output`and set `Update frequency` according to your results.
 
 ![obraz](https://user-images.githubusercontent.com/69086569/216762783-0ce47e57-98a7-474d-aa84-7e5afb42d294.png)
+
+You can also use `screen` command to connect to HyperSPI serial port log output.  
+Adjust USB port if necessary e.g.  
+`screen /dev/ttyUSB0 115200`  
+If you want to exit screen press `Ctrl-a` then `k`.
+
 
 
 
