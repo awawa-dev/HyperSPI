@@ -64,7 +64,7 @@ Do not reset or disconnect the board until the end of the recovery procedure.
 2. Execute `esptool.py erase_flash`  
 3. Flash 'factory' version of the firmware e.g.  
 `esptool.py write_flash 0x0 hyperspi_esp32_s2_mini_SK6812_RGBW_COLD.factory.bin`  
-4. Reset the board manually with the `Rst` button. The board should be detected as a COM port in the system.
+4. **`esptool.py` is not able to automatically reset esp32-s2 when in dfu mode. Reconnect or hard reset it manually.** The board should be detected as a COM port in the system.
 
 ## Flashing generic Esp8266/ESP32
 
