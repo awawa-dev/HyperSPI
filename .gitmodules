@@ -1,0 +1,3 @@
+[submodule "rp2040/HyperSerialPico"]
+	path = rp2040/HyperSerialPico
+	url = https://github.com/awawa-dev/HyperSerialPico

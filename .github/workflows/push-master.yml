@@ -1,4 +1,4 @@
-name: HyperSPI CI Build
+name: HyperSPI ESP32/8266 CI Build
 
 on: [push]
 
