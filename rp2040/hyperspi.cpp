@@ -156,7 +156,6 @@ static uint initSpi(uint baudrate, spi_inst_t* _spi, uint32_t spiMosipin, uint32
 
 static void core0( void *pvParameters )
 {
-	bool regroupNeeded = false;
 	uint dmaChannelNumber = initSpi(SPI_SPEED, SPI_INTERFACE, SPI_DATA_PIN, SPI_CLOCK_PIN, SPI_CHIP_SELECT);
 
 	while(true)
@@ -166,20 +165,13 @@ static void core0( void *pvParameters )
 
 		if (frameState.getRegroup())
 		{
-			if (regroupNeeded)
-			{
-				dma_channel_unclaim(dmaChannelNumber);
-				spi_deinit(SPI_INTERFACE);
-				dmaChannelNumber = initSpi(SPI_SPEED, SPI_INTERFACE, SPI_DATA_PIN, SPI_CLOCK_PIN, SPI_CHIP_SELECT);
-			}
-			regroupNeeded = false;
+			dma_channel_unclaim(dmaChannelNumber);
+			spi_deinit(SPI_INTERFACE);
+			dmaChannelNumber = initSpi(SPI_SPEED, SPI_INTERFACE, SPI_DATA_PIN, SPI_CLOCK_PIN, SPI_CHIP_SELECT);
 			frameState.setRegroup(false);
 		}
-		else
-			regroupNeeded = true;		
 
-
-		//printf("%i %i %i %i %i %i %i %i\n",spiBuffer[0],spiBuffer[1],spiBuffer[2],spiBuffer[3],spiBuffer[4],spiBuffer[5],spiBuffer[6],spiBuffer[7],spiBuffer[8]);
+		//printf("%i %i %i %i %i %i %i %i %i %i %i\n",spiBuffer[0],spiBuffer[1],spiBuffer[2],spiBuffer[3],spiBuffer[4],spiBuffer[5],spiBuffer[6],spiBuffer[7],spiBuffer[8],spiBuffer[9],spiBuffer[10]);
 		int remains = SPI_FRAME_SIZE;
 		int wanted, received;
 		do
