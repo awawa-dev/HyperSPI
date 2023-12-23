@@ -62,13 +62,16 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
 
 ## Default pinout (can be changed for esp32 and esp32-s2)
   
-|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 lolin mini|
-|-------------|-----------|-----------|-----------|
-| Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    |
-| Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   |
-| SPI Chip Select(e.g. CE0) | not used    | GPIO 5    | GPIO 12   |
-| GROUND      | mandatory | mandatory | mandatory |
-| LED output  | GPIO 2    | GPIO 2    | GPIO 2    |
+|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 lolin mini| Pico (rp2040)
+|-------------|-----------|-----------|-----------|-----------|
+| Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    | GPIO 2    |
+| Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   | GPIO 4    |
+| SPI Chip Select(e.g. CE0) | not used    | GPIO 5    | GPIO 12   | GPIO 5    |
+| GROUND      | mandatory | mandatory | mandatory | mandatory |
+| LED output  | GPIO 2    | GPIO 2    | GPIO 2    | GPIO 14 |
+
+> [!CAUTION]
+> The ground connection between both GPIOs is as important as the other SPI data connections. The ground cable should be of a similar length as them and run directly next to them.
 
 # Flashing the firmware
 
