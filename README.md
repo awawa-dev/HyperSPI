@@ -1,13 +1,13 @@
 # HyperSPI
 SPI bridge for AWA protocol to control a LED strip from HyperHDR.  
 Diagnostic and performance data available at the serial port output [read more](#performancedebug-output).  
-Rpi acts as a master, ESP8266/ESP32/ESP32-S2 is in slave mode. 
+Raspberry Pi acts as a master, ESP8266/ESP32/ESP32-S2/rp2040(Raspberry Pi Pico) is in slave mode. 
   
-| LED strip / Device             | ESP8266<br>(limited performance) |    ESP32 / ESP32-S2 mini    |
-|--------------------------------|:-------:|:-----------:|
-| SK6812 cold white              |   yes   |     yes     |
-| SK6812 neutral white           |   yes   |     yes     |
-| WS281x                         |   yes   |     yes     |
+| LED strip / Device             | rp2040 / Pico | ESP8266<br>(limited performance) |    ESP32 / ESP32-S2 mini    
+|--------------------------------|:-------:|:-----------:|:-------:|
+| SK6812 cold white              |   yes   |   yes   |     yes     |
+| SK6812 neutral white           |   yes   |   yes   |     yes     |
+| WS281x                         |   yes   |   yes   |     yes     |
   
   
 # Why this project was created?
@@ -23,9 +23,19 @@ Rpi acts as a master, ESP8266/ESP32/ESP32-S2 is in slave mode.
 
 If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/pro, ESP32 MH-ET Live, ESP32-S2 lolin mini), the SPI connection uses the same pinout location on the ESP board! The pin positions of the LED output may vary. Cables (including ground) should not exceed 15-20cm or it may be necessary to lower the SPI speed. 
 
+The photos below use the same home-made adapter throughout, so you can see a repeating pattern and the cable colors should help you locate the correct pins. However, always consult the GPIO diagram for your boards to confirm that you have connected the cables correctly, because if you make a mistake and connect to the 5V GPIO line, it may damage both devices.  
+
+As you can also notice, the pinout of the SPI0 interface is identical for the entire Raspberry Pi SBC family: 3, 4, 5, Zero 2W, etc.  
+
 <table>  
   <tr>
-    <td colspan="2"><p align="center">See how easy it is to connect ESP to Raspberry Pi using SPI</p></td>
+    <td colspan="2"><p align="center">See how easy it is to connect Raspberry Pi Pico (rp2040) to Raspberry Pi 5 using SPI</p></td>    
+  </tr>
+  <tr>
+    <td colspan="2"><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/7f24f87e-f7e0-43f3-a568-39d0f6beced1"/></td>
+  </tr>  
+  <tr>
+    <td colspan="2"><p align="center">or if you prefer ESP32/ESP32-S2/Esp8266</p></td>
   </tr>
   <tr>
     <td><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/1e500ca3-e93d-4082-af59-b701e6274a29"/></td>
@@ -52,13 +62,16 @@ If you are using an ESP board compatible with the Wemos board (ESP8266 Wemos D1/
 
 ## Default pinout (can be changed for esp32 and esp32-s2)
   
-|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 lolin mini|
-|-------------|-----------|-----------|-----------|
-| Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    |
-| Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   |
-| SPI Chip Select(e.g. CE0) | not used    | GPIO 5    | GPIO 12   |
-| GROUND      | mandatory | mandatory | mandatory |
-| LED output  | GPIO 2    | GPIO 2    | GPIO 2    |
+|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 lolin mini| Pico (rp2040)
+|-------------|-----------|-----------|-----------|-----------|
+| Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    | GPIO 2    |
+| Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   | GPIO 4    |
+| SPI Chip Select(e.g. CE0) | not used    | GPIO 5    | GPIO 12   | GPIO 5    |
+| GROUND      | mandatory | mandatory | mandatory | mandatory |
+| LED output  | GPIO 2    | GPIO 2    | GPIO 2    | GPIO 14 |
+
+> [!CAUTION]
+> The ground connection between both GPIOs is as important as the other SPI data connections. The ground cable should be of a similar length as them and run directly next to them.
 
 # Flashing the firmware
 
