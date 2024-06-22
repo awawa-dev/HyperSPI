@@ -79,11 +79,11 @@ jobs:
         rm *.*
         rm ../HyperSerialPico/firmware/*
         echo "Neopixel is using GPIO14(OUTPUT_DATA_PIN) on output D5." > ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
-        echo "SPI MOSI is GPIO27 (A1)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
+        echo "SPI MOSI->MISO is GPIO28 (A2)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
         echo "SPI SCK is GPIO26 (A0)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
         echo "SPI CHIP_SELECT is GPIO29 (A3)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
         echo "SPI interface is spi1" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
-        cmake -DOVERRIDE_DATA_PIN=14 -DOVERRIDE_SPI_DATA_PIN=27 -DOVERRIDE_SPI_CLOCK_PIN=26 -DOVERRIDE_SPI_CHIP_SELECT=29 -DOVERRIDE_SPI_INTERFACE=spi1 -DCMAKE_BUILD_TYPE=Release ..
+        cmake -DOVERRIDE_DATA_PIN=14 -DOVERRIDE_SPI_DATA_PIN=28 -DOVERRIDE_SPI_CLOCK_PIN=26 -DOVERRIDE_SPI_CHIP_SELECT=29 -DOVERRIDE_SPI_INTERFACE=spi1 -DCMAKE_BUILD_TYPE=Release ..
         cmake --build .
         zip -j ../HyperSerialPico/firmware/Adafruit_ItsyBitsy_RP2040.zip ../HyperSerialPico/firmware/*
 
