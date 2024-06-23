@@ -20,7 +20,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
     - name: Cache PlatformIO
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.platformio
         key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
@@ -42,7 +42,7 @@ jobs:
       name: Upload artifacts (commit)
       if: (startsWith(github.event.ref, 'refs/tags') != true)
       with:
-        name: firmware
+        name: firmware-archive
         path: |
           .pio/build/*.bin
           .pio/build/recovery_firmware.zip
