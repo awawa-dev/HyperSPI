@@ -23,6 +23,39 @@ set(OUTPUT_SPI_INTERFACE spi0)
 
 # User configuration section ends here
 # Usually you don't need to change anything below this section
+
+if(NOT CMAKE_HOST_WIN32)
+	string(ASCII 27 EscChar)
+	set(ColorReset  "${EscChar}[m")
+	set(GreenColor  "${EscChar}[32m")
+	set(YellowColor "${EscChar}[33m")	
+endif()
+
+if (OVERRIDE_DATA_PIN)
+	set(OUTPUT_DATA_PIN ${OVERRIDE_DATA_PIN})
+	message( STATUS "${YellowColor}Overriding output Neopixel Data GPIO: ${OUTPUT_DATA_PIN}${ColorReset}")
+endif()
+
+if (OVERRIDE_SPI_DATA_PIN)
+	set(OUTPUT_SPI_DATA_PIN ${OVERRIDE_SPI_DATA_PIN})
+	message( STATUS "${YellowColor}Overriding input SPI Data GPIO: ${OUTPUT_SPI_DATA_PIN}${ColorReset}")
+endif()
+
+if (OVERRIDE_SPI_CLOCK_PIN)
+	set(OUTPUT_SPI_CLOCK_PIN ${OVERRIDE_SPI_CLOCK_PIN})
+	message( STATUS "${YellowColor}Overriding input SPI Clock GPIO: ${OUTPUT_SPI_CLOCK_PIN}${ColorReset}")
+endif()
+
+if (OVERRIDE_SPI_CHIP_SELECT)
+	set(OUTPUT_SPI_CHIP_SELECT ${OVERRIDE_SPI_CHIP_SELECT})
+	message( STATUS "${YellowColor}Overriding input SPI chip select GPIO: ${OUTPUT_SPI_CHIP_SELECT}${ColorReset}")
+endif()
+
+if (OVERRIDE_SPI_INTERFACE)
+	set(OUTPUT_SPI_INTERFACE ${OVERRIDE_SPI_INTERFACE})
+	message( STATUS "${YellowColor}Overriding input SPI Interface: ${OUTPUT_SPI_INTERFACE}${ColorReset}")
+endif()
+
 cmake_minimum_required(VERSION 3.13)
 
 set(PICO_SDK_PATH ${CMAKE_CURRENT_SOURCE_DIR}/HyperSerialPico/sdk/pico)

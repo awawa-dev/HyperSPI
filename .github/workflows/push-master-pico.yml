@@ -14,7 +14,7 @@ jobs:
       run:
         working-directory: ./rp2040
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -30,21 +30,23 @@ jobs:
         cd build
         cmake ..
         cmake --build . --config Release
+        zip -j ../HyperSerialPico/firmware/hyperspi_pico_rp2040.zip ../HyperSerialPico/firmware/*.uf2
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       name: Upload artifacts (commit)
       if: (startsWith(github.event.ref, 'refs/tags') != true)
       with:
+        name: commit-artifact-pico
         path: |
-          rp2040/HyperSerialPico/firmware/*.uf2
+          rp2040/HyperSerialPico/firmware/*.zip
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       name: Upload artifacts (release)
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: firmware-release
+        name: release-artifact-pico
         path: |
-          rp2040/HyperSerialPico/firmware/*.uf2
+          rp2040/HyperSerialPico/firmware/*.zip
 
     - name: Build packages for Adafruit Feather RP2040 Scorpio
       shell: bash
@@ -52,23 +54,59 @@ jobs:
         cd build
         rm *.*
         rm ../HyperSerialPico/firmware/*
-        echo "Neopixel is using GPIO16(OUTPUT_DATA_PIN) on output 0." > ../HyperSerialPico/firmware/Firmwares_for_Adafruit_Feather_RP2040_Scorpio.txt
-        cmake -DOVERRIDE_DATA_PIN=16 -DCMAKE_BUILD_TYPE=Release ..
+        echo "Neopixel is using GPIO16(OUTPUT_DATA_PIN) on output 0." > ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
+        echo "SPI MOSI->MISO is GPIO28 (A2)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
+        echo "SPI SCK is GPIO26 (A0)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
+        echo "SPI CHIP_SELECT is GPIO29 (A3)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
+        echo "SPI interface is spi1" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
+        cmake -DOVERRIDE_DATA_PIN=16 -DOVERRIDE_SPI_DATA_PIN=28 -DOVERRIDE_SPI_CLOCK_PIN=26 -DOVERRIDE_SPI_CHIP_SELECT=29 -DOVERRIDE_SPI_INTERFACE=spi1 -DCMAKE_BUILD_TYPE=Release ..
         cmake --build .
         zip -j ../HyperSerialPico/firmware/Adafruit_Feather_RP2040_Scorpio.zip ../HyperSerialPico/firmware/*
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       name: Upload artifacts (Adafruit_Feather)
       if: (startsWith(github.event.ref, 'refs/tags') != true)      
       with:
+        name: commit-artifact-Adafruit_Feather
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       name: Upload artifacts (release for Adafruit_Feather)
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: firmware-release
+        name: release-artifact-Adafruit_Feather
+        path: |
+          rp2040/HyperSerialPico/firmware/*.zip
+
+    - name: Build packages for Adafruit ItsyBitsy RP2040
+      shell: bash
+      run: |
+        cd build
+        rm *.*
+        rm ../HyperSerialPico/firmware/*
+        echo "Neopixel is using GPIO14(OUTPUT_DATA_PIN) on output D5." > ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
+        echo "SPI MOSI->MISO is GPIO28 (A2)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
+        echo "SPI SCK is GPIO26 (A0)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
+        echo "SPI CHIP_SELECT is GPIO29 (A3)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
+        echo "SPI interface is spi1" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_ItsyBitsy_RP2040.txt
+        cmake -DOVERRIDE_DATA_PIN=14 -DOVERRIDE_SPI_DATA_PIN=28 -DOVERRIDE_SPI_CLOCK_PIN=26 -DOVERRIDE_SPI_CHIP_SELECT=29 -DOVERRIDE_SPI_INTERFACE=spi1 -DCMAKE_BUILD_TYPE=Release ..
+        cmake --build .
+        zip -j ../HyperSerialPico/firmware/Adafruit_ItsyBitsy_RP2040.zip ../HyperSerialPico/firmware/*
+
+    - uses: actions/upload-artifact@v4
+      name: Upload artifacts (Adafruit_ItsyBitsy)
+      if: (startsWith(github.event.ref, 'refs/tags') != true)      
+      with:
+        name: commit-artifact-Adafruit_ItsyBitsy
+        path: |
+          rp2040/HyperSerialPico/firmware/*.zip
+
+    - uses: actions/upload-artifact@v4
+      name: Upload artifacts (release for Adafruit_ItsyBitsy)
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        name: release-artifact-Adafruit_ItsyBitsy
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
@@ -95,9 +133,12 @@ jobs:
         if: contains(env.VERSION, 'alpha') || contains(env.VERSION, 'beta')
         run: echo "preRelease=true" >> $GITHUB_ENV
 
-      - uses: actions/download-artifact@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          name: firmware-release
+          path: artifacts
+          pattern: release-artifact-*
+          merge-multiple: true
 
       # create draft release and upload artifacts
       - name: Create draft release
@@ -105,9 +146,7 @@ jobs:
         with:
           name: HyperSPI ${{ env.VERSION }}
           tag_name: ${{ env.TAG }}
-          files: |
-            *.uf2
-            *.zip
+          files: "artifacts/**"
           draft: true
           prerelease: ${{ env.preRelease }}
         env:
