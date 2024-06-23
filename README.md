@@ -16,7 +16,7 @@ Raspberry Pi acts as a master, ESP8266/ESP32/ESP32-S2/rp2040(Raspberry Pi Pico) 
 - SPI doesn't have any data integration check. But AWA protocol does have one
 - you don't need to have 2Mb capable serial port on your ESP board
 - SPI transmission is much lighter than serial communication
-- There is a hardware limitation for the Rpi current design...even if you connect your grabber using USB2.0 mode, working serial port driver (used by Adalight) results in quite a large overall USB transfer. So we can replace Adalight with a pure SPI data transfer as an alternative
+- There is a hardware limitation for the Rpi current design...even if you connect your grabber using USB2.0 mode, working serial port driver (used by Adalight) results in quite a large drop in overall USB transfer. So we can replace Adalight with a pure SPI data transfer as an alternative
 - I needed it and I was able to implemented it 😉
 
 # Hardware connection  
