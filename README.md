@@ -64,9 +64,9 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
 <img src="https://user-images.githubusercontent.com/69086569/207587620-1c4c53c8-426c-486e-a6d9-d429fd1b050d.png" width="250"/><img src="https://user-images.githubusercontent.com/69086569/207587635-b7816329-0e29-47ee-a75a-bc6c41cdc51f.png" width="250"/>
 </p>
 
-## Default pinout (can be changed for esp32 and esp32-s2)
+## Default pinout (can be changed for esp32, esp32-s2 and rp2040 Pico)
   
-|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 lolin mini| Pico (rp2040)
+|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 | Pico (rp2040)
 |-------------|-----------|-----------|-----------|-----------|
 | Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    | GPIO 2    |
 | Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   | GPIO 4    |
@@ -105,12 +105,23 @@ Or use `esptool.py` e.g.
 For **RGBW LED strip** like RGBW SK6812 NEUTRAL white choose: *hyperspi_..._SK6812_RGBW_NEUTRAL.bin*  
 For **RGBW LED strip** like RGBW SK6812 COLD white choose: *hyperspi_..._SK6812_RGBW_COLD.bin*  
 For **RGB LED strip** like WS8212b or RGB SK6812 variant choose: *hyperspi_..._WS281x_RGB.bin*  
+
+## Flashing Pico boards
+
+It's very easy and you don't need any special flasher.  
+
+Put your Pico board into DFU mode:  
+* If your Pico board has only one button (`boot`) then press & hold it and connect the board to the USB port. Then you can release the button.
+* If your Pico board has two buttons, connect it to the USB port. Then press & hold `boot` and `reset` buttons, then release `reset` and next release `boot` button.  
+
+In the system file explorer you should find new drive (e.g. called `RPI-RP2` drive) exposed by the Pico board. Drag & drop (or copy) the selected firmware to this drive. 
+The Pico will reset automaticly after the upload and after few seconds it will be ready to use.
   
 # Software configuration (HyperHDR v17 and above)
 
 **In HyperHDR `Image Processing→Smoothing→Update frequency` you should do not exceed the maximum capacity of the device. Read more here: [testing performance](https://github.com/awawa-dev/HyperSPI#performance-output)**
 
-Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards or 'standard' for other devices.    
+Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards, `rp2040 (Pico)` for Pico boards or 'standard' for other devices.    
 Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
 Enabling "White channel calibration" is optional, if you want to fine tune the white channel balance of your sk6812 RGBW LED strip.
   
@@ -143,11 +154,23 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 | 900LEDs RGBW<br>Refresh rate/continues output=22Hz  |          22         |
 
 # Compiling
-  
+
+## ESP8266 / ESP32
+
 Currently we use PlatformIO to compile the project. Install [Visual Studio Code](https://code.visualstudio.com/) and add [PlatformIO plugin](https://platformio.org/).
 This environment will take care of everything and compile the firmware for you. Low-level LED strip support is provided by my highly optimizated (pre-fill I2S DMA modes, turbo I2S parallel mode for up to 2 segments etc) version of Neopixelbus library: [link](https://github.com/awawa-dev/NeoPixelBus).
 
-But there is also an alternative and an easier way. Just fork the project and enable its Github Action. Use the online editor to make changes to the ```platformio.ini``` file, for example change default pin-outs or enable multi-segments support, and save it. Github Action will compile new firmware automatically in the Artifacts archive. It has never been so easy! **Just remember to follow the steps in the correct order otherwise the Github Action may not be triggered the first time after saving the changes.**
+## Pico rp2040
+
+Use Pico SDO and Visual Code to open ```rp2040``` folder. Edit ```rp2040\CMakeLists.txt``` configuration file if you need to apply changes.
+
+## Github Action
+
+But there is also an alternative and an easier way. Just fork the project and enable its Github Action. Use the online editor to make changes:
+- esp8266/ESP32 boards: to the ```platformio.ini``` file
+- rp2040 Pico boards: to the ```rp2040\CMakeLists.txt``` file
+
+for example change default pin-outs or enable multi-segments support, and save it. Github Action will compile new firmware automatically in the Artifacts archive. It has never been so easy! **Just remember to follow the steps in the correct order otherwise the Github Action may not be triggered the first time after saving the changes.**
 
 Tutorial: https://github.com/awawa-dev/HyperSPI/wiki
 
