@@ -38,15 +38,16 @@ jobs:
         zip -j .pio/build/recovery_firmware.zip .pio/build/*.factory.bin
         rm -f .pio/build/*.factory.bin
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       name: Upload artifacts (commit)
       if: (startsWith(github.event.ref, 'refs/tags') != true)
       with:
+        name: firmware
         path: |
           .pio/build/*.bin
           .pio/build/recovery_firmware.zip
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       name: Upload artifacts (release)
       if: startsWith(github.ref, 'refs/tags/')
       with:
@@ -76,7 +77,7 @@ jobs:
         if: contains(env.VERSION, 'alpha') || contains(env.VERSION, 'beta')
         run: echo "preRelease=true" >> $GITHUB_ENV
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: firmware-release
 
