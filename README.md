@@ -33,7 +33,11 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
   </tr>
   <tr>
     <td colspan="2"><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/7f24f87e-f7e0-43f3-a568-39d0f6beced1"/></td>
-  </tr>  
+  </tr>
+  <tr>
+    <td><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/170f5718-df88-4ef2-9ed8-7d92d913aeec"/></td>
+    <td><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/9235c689-062e-4c62-b632-8c506b0e2e97"/></td>
+  </tr>
   <tr>
     <td colspan="2"><p align="center">or if you prefer ESP32/ESP32-S2/Esp8266</p></td>
   </tr>
@@ -44,11 +48,7 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
   <tr>
     <td><img src="https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png"/></td>
     <td><img src="https://user-images.githubusercontent.com/69086569/231207350-a670bfea-a96d-4d21-9e8f-f2ca027105da.png"/></td>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/170f5718-df88-4ef2-9ed8-7d92d913aeec"/></td>
-    <td><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/9235c689-062e-4c62-b632-8c506b0e2e97"/></td>
-  </tr>
+  </tr> 
 </table>
 
 # Example of supported boards
