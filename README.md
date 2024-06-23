@@ -66,13 +66,13 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
 
 ## Default pinout (can be changed for esp32, esp32-s2 and rp2040 Pico)
   
-|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 | Pico (rp2040)
-|-------------|-----------|-----------|-----------|-----------|
-| Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    | GPIO 2    |
-| Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   | GPIO 4    |
-| SPI Chip Select(e.g. CE0) | not used    | GPIO 5    | GPIO 12   | GPIO 5    |
-| GROUND      | mandatory | mandatory | mandatory | mandatory |
-| LED output  | GPIO 2    | GPIO 2    | GPIO 2    | GPIO 14 |
+|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 | Pico (rp2040) | Adafruit rp2040<br/>Scoprio & ItsyBitsy
+|-------------|-----------|-----------|-----------|-----------|-----------|
+| Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    | GPIO 2    | GPIO 26 (A0) |
+| Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   | GPIO 4    | GPIO 28 (A2) |
+| SPI Chip Select(e.g. CE0) | not used    | GPIO 5    | GPIO 12   | GPIO 5    | GPIO 29 (A3) |
+| GROUND      | mandatory | mandatory | mandatory | mandatory | mandatory |
+| LED output  | GPIO 2    | GPIO 2    | GPIO 2    | GPIO 14 | GPIO16 / GPIO14 |
 
 > [!CAUTION]
 > The ground connection between both GPIOs is as important as the other SPI data connections. The ground cable should be of a similar length as them and run directly next to them.
@@ -162,7 +162,7 @@ This environment will take care of everything and compile the firmware for you. 
 
 ## Pico rp2040
 
-Use Pico SDO and Visual Code to open ```rp2040``` folder. Edit ```rp2040\CMakeLists.txt``` configuration file if you need to apply changes.
+Use Pico SDK and Visual Code to open ```rp2040``` folder. Edit ```rp2040\CMakeLists.txt``` configuration file if you need to apply changes.
 
 ## Github Action
 
@@ -174,7 +174,9 @@ for example change default pin-outs or enable multi-segments support, and save i
 
 Tutorial: https://github.com/awawa-dev/HyperSPI/wiki
 
-# Multi-Segment Wiring (ESP32 and ESP32-S2 only)
+# Multi-Segment Wiring (ESP32, ESP32-S2 and Pico rp2040 boards only)
+
+## ESP32
 
 Using parallel multi-segment allows you to double your Neopixel (e.g. sk6812 RGBW) LED strip refresh rate by dividing it into two smaller equal parts. Both smaller segments are perfectly in sync so you don't need to worry about it. Proposed example of building a multisegment:
 - Divide a long or dense strip of LEDs into 2 smaller equal parts. So `SECOND_SEGMENT_START_INDEX` in the HyperSPI firmware is the total number of LEDs divided by 2.
@@ -199,6 +201,10 @@ build_flags = -DNEOPIXEL_RGB -DDATA_PIN=2 ${env.build_flags} -DSECOND_SEGMENT_ST
 ```
 Implementation example:
 - The diagram of the board for WS2812b/SK6812 including ESP32 and the SN74AHCT125N 74AHCT125 [level shifter](https://github.com/awawa-dev/HyperHDR/wiki/Level-Shifter).
+
+# Pico rp2040
+
+Edit ```rp2040\CMakeLists.txt``` file and recompile the project.
 
 ![HyperSPI](https://user-images.githubusercontent.com/85223482/222923979-f344349a-1f8b-4195-94ca-51721923359e.png)
 
