@@ -137,27 +137,19 @@ Enabling "White channel calibration" is optional, if you want to fine tune the w
 
 ## ESP32 & ESP32-S2 parallel multi-segment mode
 
-| LED strip / Device                                                                      | ESP32 MH-ET LIVE mini<br/>HyperSPI v9 |  ESP32-S2 Lolin mini<br/>HyperSPI v9 |
+| sk6812 LED strip / Device                                                                      | ESP32 MH-ET LIVE mini<br/>HyperSPI v9 |  ESP32-S2 Lolin mini<br/>HyperSPI v9 |
 |-----------------------------------------------------------------------------------------|-----------------------|----------------------|
-| 300LEDs sk6812<br>Refresh rate/continues output=100Hz<br>SECOND_SEGMENT_START_INDEX=150 |          100          |          100         |
-| 600LEDs sk6812<br>Refresh rate/continues output=83Hz<br>SECOND_SEGMENT_START_INDEX=300  |           83          |           83         |
-| 900LEDs sk6812<br>Refresh rate/continues output=55Hz <br>SECOND_SEGMENT_START_INDEX=450 |         54-55         |           55         |
+| 300 RGBW LEDs<br>Refresh rate/continues output=100Hz<br>SECOND_SEGMENT_START_INDEX=150 |          100          |          100         |
+| 600 RGBW LEDs<br>Refresh rate/continues output=83Hz<br>SECOND_SEGMENT_START_INDEX=300  |           83          |           83         |
+| 900 RGBW LEDs<br>Refresh rate/continues output=55Hz <br>SECOND_SEGMENT_START_INDEX=450 |         54-55         |           55         |
 
-## ESP32
+## SP8266 / ESP32
 
-| LED strip / Device                             | ESP32 MH ET Live<br/>HyperSPI v9 | ESP32-S2 Lolin mini<br/>HyperSPI v9 |
-|------------------------------------------------|-----------------|--------------------|
-| 300LEDs RGBW<br>Refresh rate/continues output=83Hz  |        83       |          83        |
-| 600LEDs RGBW<br>Refresh rate/continues output=43Hz  |      42-43      |          42        |
-| 900LEDs RGBW<br>Refresh rate/continues output=28Hz  |       28        |          28        |
-
-## ESP8266
-
-| LED strip / Device                             | ESP8266 Wemos D1 Pro<br/>HyperSPI v9 |
-|------------------------------------------------|---------------------|
-| 300LEDs RGBW<br>Refresh rate/continues output=70Hz  |          70         |
-| 600LEDs RGBW<br>Refresh rate/continues output=33Hz  |          33         |
-| 900LEDs RGBW<br>Refresh rate/continues output=22Hz  |          22         |
+| sk6812 LED strip / Device                             | ESP32 MH ET Live<br/>HyperSPI v9 | ESP32-S2 Lolin mini<br/>HyperSPI v9 | ESP8266 Wemos D1 Pro<br/>HyperSPI v9 |
+|------------------------------------------------|-----------------|--------------------|---------------------|
+| 300 RGBW LEDs<br>continues output=83/70Hz  |        83       |          83        |          70         |
+| 600 RGBW LEDs<br>continues output=43/33Hz  |      42-43      |          42        |          33         |
+| 900 RGBW LEDs<br>continues output=28/22Hz  |       28        |          28        |          22         |
 
 # Compiling
 
@@ -208,7 +200,7 @@ build_flags = -DNEOPIXEL_RGB -DDATA_PIN=2 ${env.build_flags} -DSECOND_SEGMENT_ST
 Implementation example:
 - The diagram of the board for WS2812b/SK6812 including ESP32 and the SN74AHCT125N 74AHCT125 [level shifter](https://github.com/awawa-dev/HyperHDR/wiki/Level-Shifter).
 
-# Pico rp2040
+## Pico rp2040
 
 Edit ```rp2040\CMakeLists.txt``` file and recompile the project.
 
