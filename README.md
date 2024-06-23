@@ -53,6 +53,10 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
 
 # Example of supported boards
 
+<p align="center">
+<b>Adafruit RP2040 Scorpio and ItsyBitsy with built-in level shifter (recommended!)</b><br/>  
+<img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/c7ef2768-357e-47ca-aa1c-543769eeb360" width="250" /><img src="https://github.com/awawa-dev/HyperSPI/assets/69086569/3e55948d-fd3d-44cb-908c-9aad8ce2715d" width="250" />
+</p>
 
 <p align="center">
 <b>Esp8266 Wemos D1 mini (CH340) and Wemos D1 mini pro (CP2104)</b><br/>
@@ -66,7 +70,7 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
 
 ## Default pinout (can be changed for esp32, esp32-s2 and rp2040 Pico)
   
-|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 | Pico (rp2040) | Adafruit rp2040<br/>Scoprio & ItsyBitsy
+|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 | Pico (rp2040) | Adafruit rp2040<br/>Scorpio & ItsyBitsy
 |-------------|-----------|-----------|-----------|-----------|-----------|
 | Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    | GPIO 2    | GPIO 26 (A0) |
 | Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   | GPIO 4    | GPIO 28 (A2) |
