@@ -114,6 +114,8 @@ For **RGB LED strip** like WS8212b or RGB SK6812 variant choose: *hyperspi_..._W
 
 It's very easy and you don't need any special flasher.  
 
+Use firmware from the `PicoRp2040Boards.zip` archive. Adafruit boards have their own custom firmware package inside the archive: `Adafruit_ItsyBitsy_RP2040.zip` and `Adafruit_Feather_RP2040_Scorpio.zip`
+
 Put your Pico board into DFU mode:  
 * If your Pico board has only one button (`boot`) then press & hold it and connect the board to the USB port. Then you can release the button.
 * If your Pico board has two buttons, connect it to the USB port. Then press & hold `boot` and `reset` buttons, then release `reset` and next release `boot` button.  
