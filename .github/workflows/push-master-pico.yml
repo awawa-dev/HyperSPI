@@ -36,6 +36,7 @@ jobs:
       name: Upload artifacts (commit)
       if: (startsWith(github.event.ref, 'refs/tags') != true)
       with:
+        name: commit-artifact-pico
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
@@ -43,7 +44,7 @@ jobs:
       name: Upload artifacts (release)
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: firmware-release
+        name: release-artifact-pico
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
@@ -66,6 +67,7 @@ jobs:
       name: Upload artifacts (Adafruit_Feather)
       if: (startsWith(github.event.ref, 'refs/tags') != true)      
       with:
+        name: commit-artifact-Adafruit_Feather
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
@@ -73,7 +75,7 @@ jobs:
       name: Upload artifacts (release for Adafruit_Feather)
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: firmware-release
+        name: release-artifact-Adafruit_Feather
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
@@ -96,6 +98,7 @@ jobs:
       name: Upload artifacts (Adafruit_ItsyBitsy)
       if: (startsWith(github.event.ref, 'refs/tags') != true)      
       with:
+        name: commit-artifact-Adafruit_ItsyBitsy
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
@@ -103,7 +106,7 @@ jobs:
       name: Upload artifacts (release for Adafruit_ItsyBitsy)
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: firmware-release
+        name: release-artifact-Adafruit_ItsyBitsy
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
@@ -130,9 +133,12 @@ jobs:
         if: contains(env.VERSION, 'alpha') || contains(env.VERSION, 'beta')
         run: echo "preRelease=true" >> $GITHUB_ENV
 
-      - uses: actions/download-artifact@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          name: firmware-release
+          path: artifacts
+          pattern: release-artifact-*
+          merge-multiple: true
 
       # create draft release and upload artifacts
       - name: Create draft release
@@ -140,9 +146,7 @@ jobs:
         with:
           name: HyperSPI ${{ env.VERSION }}
           tag_name: ${{ env.TAG }}
-          files: |
-            *.uf2
-            *.zip
+          files: "artifacts/**"
           draft: true
           prerelease: ${{ env.preRelease }}
         env:
