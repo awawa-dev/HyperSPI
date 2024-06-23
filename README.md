@@ -70,7 +70,7 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
 
 ## Default pinout (can be changed for esp32, esp32-s2 and rp2040 Pico)
   
-|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 | Pico (rp2040) | Adafruit rp2040<br/>Scorpio & ItsyBitsy
+|    PINOUT   |  ESP8266  |   ESP32   | ESP32-S2 | Pico (rp2040) | Adafruit rp2040<br/>Scorpio / ItsyBitsy
 |-------------|-----------|-----------|-----------|-----------|-----------|
 | Clock (SCK) | GPIO 14   | GPIO 18   | GPIO 7    | GPIO 2    | GPIO 26 (A0) |
 | Data (MOSI) | GPIO 13   | GPIO 23   | GPIO 11   | GPIO 4    | GPIO 28 (A2) |
@@ -114,7 +114,7 @@ For **RGB LED strip** like WS8212b or RGB SK6812 variant choose: *hyperspi_..._W
 
 It's very easy and you don't need any special flasher.  
 
-Use firmware from the `PicoRp2040Boards.zip` archive. Adafruit boards have their own custom firmware package inside the archive: `Adafruit_ItsyBitsy_RP2040.zip` and `Adafruit_Feather_RP2040_Scorpio.zip`
+Use firmware from the `hyperspi_pico_rp2040.zip` archive. Adafruit boards have their own custom firmware package inside the archive: `Adafruit_ItsyBitsy_RP2040.zip` and `Adafruit_Feather_RP2040_Scorpio.zip`
 
 Put your Pico board into DFU mode:  
 * If your Pico board has only one button (`boot`) then press & hold it and connect the board to the USB port. Then you can release the button.
@@ -127,7 +127,7 @@ The Pico will reset automaticly after the upload and after few seconds it will b
 
 **In HyperHDR `Image Processing→Smoothing→Update frequency` you should do not exceed the maximum capacity of the device. Read more here: [testing performance](https://github.com/awawa-dev/HyperSPI#performance-output)**
 
-Select esp8266 protocol for ESP proprietary SPI protocol, esp32 for ESP32 boards, `rp2040 (Pico)` for Pico boards or 'standard' for other devices.    
+Select `esp8266` protocol for ESP proprietary SPI protocol, `esp32` for ESP32 boards, `rp2040 (Pico)` for Pico boards or `standard` for other devices.    
 Make sure you set "Refresh time" to zero, "Baudrate" should be set to high but realistic value like ```25 000 000```.  
 Enabling "White channel calibration" is optional, if you want to fine tune the white channel balance of your sk6812 RGBW LED strip.
   
