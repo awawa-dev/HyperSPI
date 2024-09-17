@@ -33,7 +33,7 @@
 #else
 	#define MAX_BUFFER (4096)
 #endif
-#define HELLO_MESSAGE "\r\nWelcome!\r\nAwa driver 9."
+#define HELLO_MESSAGE "\r\nWelcome!\r\nAwa driver 10."
 
 #include "calibration.h"
 #include "statistics.h"
