@@ -49,6 +49,12 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
     <td><img src="https://user-images.githubusercontent.com/69086569/216763154-ca4aa8fa-5855-43c1-86c2-d401010de675.png"/></td>
     <td><img src="https://user-images.githubusercontent.com/69086569/231207350-a670bfea-a96d-4d21-9e8f-f2ca027105da.png"/></td>
   </tr> 
+  <tr>
+    <td colspan="2"><p align="center">multi-architecture support via FTDI (ex. FT232H)</p></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="https://github.com/user-attachments/assets/153cd27b-9fa8-4223-8770-fcd54da59a37"/></td>    
+  </tr>  
 </table>
 
 # Example of supported boards
