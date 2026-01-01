@@ -32,7 +32,7 @@ jobs:
         cmake --build . --config Release
         zip -j ../HyperSerialPico/firmware/hyperspi_pico_rp2040.zip ../HyperSerialPico/firmware/*.uf2
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       name: Upload artifacts (commit)
       if: (startsWith(github.event.ref, 'refs/tags') != true)
       with:
@@ -40,7 +40,7 @@ jobs:
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       name: Upload artifacts (release)
       if: startsWith(github.ref, 'refs/tags/')
       with:
@@ -63,7 +63,7 @@ jobs:
         cmake --build .
         zip -j ../HyperSerialPico/firmware/Adafruit_Feather_RP2040_Scorpio.zip ../HyperSerialPico/firmware/*
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       name: Upload artifacts (Adafruit_Feather)
       if: (startsWith(github.event.ref, 'refs/tags') != true)      
       with:
@@ -71,7 +71,7 @@ jobs:
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       name: Upload artifacts (release for Adafruit_Feather)
       if: startsWith(github.ref, 'refs/tags/')
       with:
@@ -94,7 +94,7 @@ jobs:
         cmake --build .
         zip -j ../HyperSerialPico/firmware/Adafruit_ItsyBitsy_RP2040.zip ../HyperSerialPico/firmware/*
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       name: Upload artifacts (Adafruit_ItsyBitsy)
       if: (startsWith(github.event.ref, 'refs/tags') != true)      
       with:
@@ -102,7 +102,7 @@ jobs:
         path: |
           rp2040/HyperSerialPico/firmware/*.zip
 
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       name: Upload artifacts (release for Adafruit_ItsyBitsy)
       if: startsWith(github.ref, 'refs/tags/')
       with:
