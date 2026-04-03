@@ -16,10 +16,16 @@ set(SECOND_SEGMENT_INDEX 410)
 set(SECOND_SEGMENT_REVERSED ON)
 
 # HyperSPI communication interface with Raspberry Pi
-set(OUTPUT_SPI_DATA_PIN 4)
-set(OUTPUT_SPI_CLOCK_PIN 2)
-set(OUTPUT_SPI_CHIP_SELECT 5)
-set(OUTPUT_SPI_INTERFACE spi0)
+set(OUTPUT_SPI_DATA_PIN 28)
+set(OUTPUT_SPI_CLOCK_PIN 26)
+set(OUTPUT_SPI_CHIP_SELECT 29)
+set(OUTPUT_SPI_INTERFACE spi1)
+
+# HyperSPI Default communication interface with Raspberry Pi
+# set(OUTPUT_SPI_DATA_PIN 4)
+# set(OUTPUT_SPI_CLOCK_PIN 2)
+# set(OUTPUT_SPI_CHIP_SELECT 5)
+# set(OUTPUT_SPI_INTERFACE spi0)
 
 # User configuration section ends here
 # Usually you don't need to change anything below this section
