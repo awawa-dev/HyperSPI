@@ -87,6 +87,19 @@ As you can also notice, the pinout of the SPI0 interface is identical for the en
 > [!CAUTION]
 > The ground connection between both GPIOs is as important as the other SPI data connections. The ground cable should be of a similar length as them and run directly next to them.
 
+### Adafruit Feather RP2040 Scorpio — 8×2 LED header
+
+Scorpio’s board-end LED connector is an **8×2** header (outputs `0`–`7`). The silkscreen numbers alone are easy to misread:
+
+| Row (relative to board edge) | Function |
+| --- | --- |
+| **Outer** row (toward the short edge / end of board) | **GND only** (all 8 pins) |
+| **Inner** row | **5V-shifted NeoPixel data** — output `0`=`GPIO16` … output `7`=`GPIO23` |
+
+Connect each strip’s **data** line to an **inner** pin. Connecting data to the outer row ties DIN to ground and the strip will stay dark with no useful HyperSPI/HyperHDR error.
+
+For HyperSPI multi-segment, stock firmware uses **consecutive** outputs: first segment on `OUTPUT_DATA_PIN`, second on `OUTPUT_DATA_PIN + 1` (default Scorpio package: output **0** + **1**). Pi SPI on Scorpio: SCK `GPIO26` (A0), MOSI `GPIO28` (A2), CS `GPIO29` (A3), `spi1`.
+
 # Flashing the firmware
 
 There are two versions of the firmware for ESP32 and ESP32-S2. The 'factory' (in the `recovery_firmware.zip` archive) and the 'base' one. Factory firmware should be flashed to offset 0x0, base firmware to offset 0x10000.
