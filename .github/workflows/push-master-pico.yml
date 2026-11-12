@@ -55,6 +55,9 @@ jobs:
         rm *.*
         rm ../HyperSerialPico/firmware/*
         echo "Neopixel is using GPIO16(OUTPUT_DATA_PIN) on output 0." > ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
+        echo "IMPORTANT: Scorpio LED header is 8x2. OUTER row = GND only. INNER row = 5V-shifted data (0=GPIO16 .. 7=GPIO23)." >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
+        echo "Do not wire strip DIN to the outer pins — that grounds the data line and LEDs stay dark." >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
+        echo "Multi-segment: second segment uses the next consecutive output (OUTPUT_DATA_PIN+1), e.g. outputs 0 and 1." >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
         echo "SPI MOSI->MISO is GPIO28 (A2)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
         echo "SPI SCK is GPIO26 (A0)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
         echo "SPI CHIP_SELECT is GPIO29 (A3)" >> ../HyperSerialPico/firmware/Firmware_for_Adafruit_Feather_RP2040_Scorpio.txt
